@@ -4,36 +4,35 @@ let cache = null;
 let cacheTime = 0;
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000;
 
-const FIELDS = [
-  "BC_1MONTH", "BC_3MONTH", "BC_6MONTH", "BC_1YEAR",
-  "BC_2YEAR",  "BC_3YEAR",  "BC_5YEAR",  "BC_7YEAR",
-  "BC_10YEAR", "BC_20YEAR", "BC_30YEAR"
+// FRED series IDs matching TENORS: 1M,3M,6M,1Y,2Y,3Y,5Y,7Y,10Y,20Y,30Y
+const SERIES = [
+  "DGS1MO", "DGS3MO", "DGS6MO", "DGS1",
+  "DGS2", "DGS3", "DGS5", "DGS7",
+  "DGS10", "DGS20", "DGS30"
 ];
 
-function fetchUrl(url) {
+function fetchLatest(seriesId) {
   return new Promise((resolve, reject) => {
-    https.get(url, (res) => {
+    const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
+    https.get(url, { headers: { "User-Agent": "iran-war-dashboard/1.0" } }, (res) => {
       let body = "";
       res.on("data", (chunk) => { body += chunk; });
-      res.on("end", () => resolve(body));
+      res.on("end", () => {
+        const lines = body.trim().split("\n");
+        // Walk backward to find last non-"." value
+        for (let i = lines.length - 1; i >= 1; i--) {
+          const parts = lines[i].split(",");
+          const date = parts[0] && parts[0].trim();
+          const val = parts[1] && parts[1].trim();
+          if (val && val !== ".") {
+            resolve({ date, value: parseFloat(val) });
+            return;
+          }
+        }
+        resolve({ date: null, value: null });
+      });
     }).on("error", reject);
   });
-}
-
-function parseLatestEntry(xml) {
-  const parts = xml.split(/<entry[\s>]/);
-  const last = parts[parts.length - 1];
-
-  const dateMatch = last.match(/<d:NEW_DATE[^>]*>([^T<]+)/);
-  const date = dateMatch ? dateMatch[1].trim() : null;
-
-  const curve = FIELDS.map((field) => {
-    const re = new RegExp(`<d:${field}[^>]*>([^<]+)<`);
-    const m = last.match(re);
-    return m ? parseFloat(m[1]) : null;
-  });
-
-  return { date, curve };
 }
 
 async function getLiveYields() {
@@ -42,14 +41,15 @@ async function getLiveYields() {
     return cache;
   }
 
-  const year = new Date().getFullYear();
-  const url = `https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdes_term=${year}`;
-  const xml = await fetchUrl(url);
-  const { date, curve } = parseLatestEntry(xml);
+  const results = await Promise.all(SERIES.map((id) => fetchLatest(id, null)));
 
-  if (!date || curve.some((v) => v === null || isNaN(v))) {
-    throw new Error("Could not parse Treasury yield curve XML");
+  if (results.some((r) => r.value === null || isNaN(r.value))) {
+    throw new Error("Missing yield data from FRED for one or more tenors");
   }
+
+  const dates = results.map((r) => r.date).filter(Boolean).sort();
+  const date = dates[dates.length - 1];
+  const curve = results.map((r) => r.value);
 
   cache = { date, curve };
   cacheTime = now;
