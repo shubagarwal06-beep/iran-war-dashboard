@@ -750,12 +750,13 @@ function escapeHtml(value) {
 
 function updateClock() {
   const now = new Date();
-  document.getElementById("clock").textContent = now.toLocaleTimeString("en-US", { hour12:false });
+  document.getElementById("clock").textContent = now.toLocaleTimeString("en-US", { hour12:true, timeZone:"America/New_York" });
   document.getElementById("date").textContent = now.toLocaleDateString("en-US", {
     weekday:"short",
     month:"short",
     day:"numeric",
-    year:"numeric"
+    year:"numeric",
+    timeZone:"America/New_York"
   });
 }
 
