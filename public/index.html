@@ -38,7 +38,7 @@ body {
   background:var(--bg);
   color:var(--text);
   font-family:var(--nf);
-  font-size:13px;
+  font-size:15px;
   line-height:1.4;
 }
 button,
@@ -88,7 +88,7 @@ textarea {
   border-radius:5px;
   padding:6px 13px;
   cursor:pointer;
-  font-size:10px;
+  font-size:11px;
   font-weight:700;
   color:#fff;
   background:var(--crimson);
@@ -102,7 +102,7 @@ textarea {
 }
 .btn-sm {
   padding:3px 9px;
-  font-size:8px;
+  font-size:10px;
   border-radius:4px;
 }
 .overlay {
@@ -153,7 +153,7 @@ textarea {
 .effect-line {
   margin-bottom:2px;
   padding-left:7px;
-  font-size:10px;
+  font-size:12px;
   line-height:1.4;
   color:var(--sub);
 }
@@ -169,7 +169,7 @@ textarea {
 }
 .price-card .price-label {
   margin-bottom:6px;
-  font-size:9px;
+  font-size:11px;
   font-weight:700;
   letter-spacing:1.5px;
   text-transform:uppercase;
@@ -190,7 +190,7 @@ textarea {
 }
 .source-note {
   margin-top:3px;
-  font-size:7px;
+  font-size:10px;
   color:var(--dim);
 }
 .yc-tooltip {
@@ -236,12 +236,12 @@ textarea {
   display:flex;
 }
 .status-banner strong {
-  font-size:10px;
+  font-size:11px;
   letter-spacing:1px;
   color:var(--warning);
 }
 .status-banner p {
-  font-size:10px;
+  font-size:12px;
   color:var(--sub);
 }
 .status-banner code {
@@ -256,14 +256,14 @@ textarea {
 }
 .driver-box-title {
   margin-bottom:6px;
-  font-size:9px;
+  font-size:11px;
   font-weight:700;
   letter-spacing:1px;
   text-transform:uppercase;
   color:var(--crimson);
 }
 .driver-box-text {
-  font-size:10px;
+  font-size:12px;
   line-height:1.5;
   color:var(--sub);
 }
@@ -302,14 +302,14 @@ textarea {
   margin-top:10px;
 }
 .timeline-kicker {
-  font-size:8px;
+  font-size:10px;
   font-weight:700;
   letter-spacing:1px;
   text-transform:uppercase;
 }
 .timeline-effect {
   margin-top:4px;
-  font-size:10px;
+  font-size:12px;
   line-height:1.45;
   color:var(--sub);
 }
@@ -321,7 +321,7 @@ textarea {
   background:var(--card);
 }
 .method-footnote-title {
-  font-size:8px;
+  font-size:10px;
   font-weight:700;
   letter-spacing:1px;
   text-transform:uppercase;
@@ -329,7 +329,7 @@ textarea {
 }
 .method-footnote-text {
   margin-top:4px;
-  font-size:10px;
+  font-size:12px;
   line-height:1.5;
   color:var(--sub);
 }
@@ -344,13 +344,16 @@ textarea {
   #bottomGrid {
     grid-template-columns:1fr !important;
   }
+  #marketCardsRow .price-card {
+    min-width:calc(50% - 5px);
+  }
 }
 @media (max-width: 760px) {
   body {
-    font-size:12px;
+    font-size:14px;
   }
   #app {
-    padding:14px 14px 28px !important;
+    padding:12px 12px 28px !important;
   }
   #headerBar {
     flex-direction:column;
@@ -364,6 +367,25 @@ textarea {
   .overlay {
     padding:18px 16px;
   }
+  #marketCardsRow {
+    flex-direction:column;
+  }
+  #marketCardsRow .price-card,
+  #marketCardsRow .card {
+    width:100%;
+    min-width:0;
+    flex:none;
+  }
+  .tv-widget-shell {
+    height:220px;
+  }
+  #intelGrid,
+  #bottomGrid {
+    grid-template-columns:1fr !important;
+  }
+  .driver-grid {
+    grid-template-columns:1fr !important;
+  }
 }
 </style>
 </head>
@@ -374,19 +396,19 @@ textarea {
       <div style="width:36px;height:36px;border:2px solid var(--crimson);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--sf);color:var(--crimson);font-size:22px;font-weight:700;font-style:italic;">b</div>
       <div>
         <div class="serif" style="font-size:22px;font-weight:700;">Iran War <span style="color:var(--crimson)">Update</span></div>
-        <div style="color:var(--sub);font-size:10px;margin-top:1px;">Live Market Data · Scenario Tree · Yield Curve</div>
+        <div style="color:var(--sub);font-size:12px;margin-top:1px;">Live Market Data · Scenario Tree · Yield Curve</div>
       </div>
     </div>
     <div id="headerRight" style="display:flex;align-items:center;gap:12px;">
       <div style="text-align:right;">
-        <div id="clock" class="mono" style="color:var(--text);font-size:12px;"></div>
-        <div id="date" class="mono" style="color:var(--dim);font-size:8px;"></div>
-        <div id="lastUpdate" class="mono" style="color:var(--dim);font-size:7px;margin-top:1px;"></div>
+        <div id="clock" class="mono" style="color:var(--text);font-size:14px;"></div>
+        <div id="date" class="mono" style="color:var(--dim);font-size:10px;"></div>
+        <div id="lastUpdate" class="mono" style="color:var(--dim);font-size:9px;margin-top:1px;"></div>
       </div>
       <button id="scanBtn" class="btn" type="button">REFRESH NOW</button>
       <div style="display:flex;align-items:center;gap:4px;">
         <div id="statusDot" style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
-        <span id="statusText" class="mono" style="font-size:8px;color:var(--sub);">LIVE</span>
+        <span id="statusText" class="mono" style="font-size:10px;color:var(--sub);">LIVE</span>
       </div>
     </div>
   </div>
@@ -397,10 +419,10 @@ textarea {
   </div>
 
   <div id="keyDevBanner" style="background:var(--crimsonFaint);border:1px solid #8b1a1a22;border-radius:5px;padding:8px 13px;margin-bottom:14px;display:none;align-items:center;gap:8px;flex-wrap:wrap;">
-    <span style="color:var(--crimson);font-weight:700;font-size:9px;letter-spacing:1.5px;">KEY DEV</span>
-    <span id="keyDevText" style="color:var(--text);font-size:11px;flex:1;"></span>
-    <span id="oilBiasTag" class="mono" style="font-size:8px;font-weight:700;display:none;"></span>
-    <span id="ratesBiasTag" class="mono" style="font-size:8px;font-weight:700;display:none;"></span>
+    <span style="color:var(--crimson);font-weight:700;font-size:11px;letter-spacing:1.5px;">KEY DEV</span>
+    <span id="keyDevText" style="color:var(--text);font-size:13px;flex:1;"></span>
+    <span id="oilBiasTag" class="mono" style="font-size:10px;font-weight:700;display:none;"></span>
+    <span id="ratesBiasTag" class="mono" style="font-size:10px;font-weight:700;display:none;"></span>
   </div>
 
   <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;" id="marketCardsRow">
@@ -427,32 +449,32 @@ textarea {
     </div>
     <div class="card" style="flex:1;min-width:180px;padding:13px 15px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
-        <span style="color:var(--sub);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Hormuz Passage</span>
-        <span id="hormuzSeverity" class="mono" style="font-size:7px;color:var(--red);font-weight:600;">CRITICAL</span>
+        <span style="color:var(--sub);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Hormuz Passage</span>
+        <span id="hormuzSeverity" class="mono" style="font-size:10px;color:var(--red);font-weight:600;">CRITICAL</span>
       </div>
       <div style="display:flex;align-items:baseline;gap:4px;">
         <span class="mono" style="color:var(--text);font-size:22px;font-weight:700;" id="hormuzShips">—</span>
-        <span style="color:var(--dim);font-size:10px;">ships/day</span>
+        <span style="color:var(--dim);font-size:12px;">ships/day</span>
       </div>
       <div style="margin-top:4px;height:5px;background:var(--faint);border-radius:3px;overflow:hidden;">
         <div id="hormuzBar" style="height:100%;width:0;background:var(--red);border-radius:3px;transition:width 1s;"></div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:3px;">
-        <span class="mono" style="font-size:8px;color:var(--red);font-weight:600;" id="hormuzPct">Awaiting data</span>
-        <span class="mono" style="font-size:8px;color:var(--dim);">Normal: ~130/day</span>
+        <span class="mono" style="font-size:11px;color:var(--red);font-weight:600;" id="hormuzPct">Awaiting data</span>
+        <span class="mono" style="font-size:11px;color:var(--dim);">Normal: ~130/day</span>
       </div>
-      <div id="hormuzBacklog" class="mono" style="font-size:8px;color:var(--dim);margin-top:2px;">Status will update from the live news feed.</div>
-      <div id="hormuzSource" style="font-size:7px;color:var(--dim);margin-top:3px;">Feed source: live news endpoint</div>
+      <div id="hormuzBacklog" class="mono" style="font-size:11px;color:var(--dim);margin-top:2px;">Status will update from the live news feed.</div>
+      <div id="hormuzSource" style="font-size:10px;color:var(--dim);margin-top:3px;">Feed source: live news endpoint</div>
     </div>
   </div>
 
   <div id="intelGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
     <div class="card" style="max-height:340px;overflow-y:auto;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-        <div class="serif" style="font-size:14px;font-weight:700;">Live News Feed</div>
+        <div class="serif" style="font-size:16px;font-weight:700;">Live News Feed</div>
         <div style="display:flex;gap:6px;align-items:center;">
-          <span id="lastScanTime" class="mono" style="font-size:7px;color:var(--dim);"></span>
-          <span id="nextScanTime" class="mono" style="font-size:7px;color:var(--dim);"></span>
+          <span id="lastScanTime" class="mono" style="font-size:9px;color:var(--dim);"></span>
+          <span id="nextScanTime" class="mono" style="font-size:9px;color:var(--dim);"></span>
         </div>
       </div>
       <div id="headlinesContainer">
@@ -463,12 +485,12 @@ textarea {
         <div class="shim"></div>
       </div>
       <div id="intelMeta" class="source-note">Source: waiting for backend</div>
-      <div id="scanError" style="color:var(--red);font-size:9px;margin-top:4px;display:none;"></div>
+      <div id="scanError" style="color:var(--red);font-size:11px;margin-top:4px;display:none;"></div>
     </div>
 
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <div class="serif" style="font-size:14px;font-weight:700;">Scenario Tree <span class="mono" style="font-size:8px;color:var(--dim);font-weight:400;">live-news-weighted</span></div>
+        <div class="serif" style="font-size:16px;font-weight:700;">Scenario Tree <span class="mono" style="font-size:10px;color:var(--dim);font-weight:400;">live-news-weighted</span></div>
         <button id="treeBtn" class="btn btn-sm" type="button">FULL TREE</button>
       </div>
       <div id="scenarioContainer"></div>
@@ -478,9 +500,9 @@ textarea {
   <div id="bottomGrid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px;">
     <div class="card">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-        <div class="serif" style="font-size:14px;font-weight:700;">Yield Curve Scenario Map <span class="mono" style="font-size:8px;color:var(--dim);font-weight:400;">illustrative</span></div>
+        <div class="serif" style="font-size:16px;font-weight:700;">Yield Curve Scenario Map <span class="mono" style="font-size:10px;color:var(--dim);font-weight:400;">illustrative</span></div>
         <div style="display:flex;gap:8px;align-items:center;">
-          <span id="weighted10y" class="mono" style="font-size:8px;color:var(--gold);"></span>
+          <span id="weighted10y" class="mono" style="font-size:10px;color:var(--gold);"></span>
           <button id="curveBtn" class="btn btn-sm" type="button">FULLSCREEN</button>
         </div>
       </div>
@@ -1055,7 +1077,7 @@ async function refreshIntel(forceRefresh) {
   document.getElementById("scanError").style.display = "none";
   if (!state.headlines.length) {
     document.getElementById("headlinesContainer").innerHTML = [
-      '<div style="color:var(--dim);font-size:11px;text-align:center;padding:12px 0 8px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>',
+      '<div style="color:var(--dim);font-size:13px;text-align:center;padding:12px 0 8px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>',
       '<div class="shim"></div>',
       '<div class="shim"></div>',
       '<div class="shim"></div>',
@@ -1164,26 +1186,26 @@ function renderKeyDevelopment() {
 function renderHeadlines() {
   const container = document.getElementById("headlinesContainer");
   if (!state.headlines.length && state.loadingIntel) {
-    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>';
+    container.innerHTML = '<div style="color:var(--dim);font-size:13px;text-align:center;padding:20px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>';
     return;
   }
   if (!state.headlines.length) {
-    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;">No headlines available.</div>';
+    container.innerHTML = '<div style="color:var(--dim);font-size:13px;text-align:center;padding:20px;">No headlines available.</div>';
     return;
   }
   container.innerHTML = state.headlines.map((headline, index) => {
     const scenarioColor = headline.scenario ? (SCENARIO_COLORS[headline.scenario] || "#a39588") : "#a39588";
     const sentimentColor = headline.sentiment ? (SENTIMENT_COLORS[headline.sentiment] || "#a39588") : "#a39588";
     const unclassifiedTag = headline.classification_status === "unclassified"
-      ? '<span class="mono" style="font-size:7px;font-weight:600;color:var(--sub);background:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 6px;letter-spacing:0.4px;">UNCLASSIFIED</span>'
+      ? '<span class="mono" style="font-size:9px;font-weight:600;color:var(--sub);background:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 6px;letter-spacing:0.4px;">UNCLASSIFIED</span>'
       : "";
     const content = '<div class="headline-item" style="border-left-color:' + scenarioColor + ';animation-delay:' + (index * 0.06) + 's;">'
-      + '<div style="font-size:11px;color:var(--text);font-weight:500;line-height:1.35;margin-bottom:2px;">' + escapeHtml(headline.title) + "</div>"
+      + '<div style="font-size:13px;color:var(--text);font-weight:500;line-height:1.35;margin-bottom:2px;">' + escapeHtml(headline.title) + "</div>"
       + '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
-      + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(headline.source) + "</span>"
-      + (headline.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(headline.time) + "</span>" : "")
-      + (headline.sentiment ? '<span style="font-size:7px;font-weight:700;color:' + sentimentColor + ';text-transform:uppercase;">' + escapeHtml(headline.sentiment) + "</span>" : "")
-      + (headline.scenario ? '<span style="font-size:7px;font-weight:600;color:' + scenarioColor + ';text-transform:uppercase;">' + escapeHtml(headline.scenario.replace("deescalation", "de-escal.")) + "</span>" : "")
+      + '<span class="mono" style="font-size:9px;color:var(--dim);">' + escapeHtml(headline.source) + "</span>"
+      + (headline.time ? '<span class="mono" style="font-size:9px;color:var(--dim);">· ' + escapeHtml(headline.time) + "</span>" : "")
+      + (headline.sentiment ? '<span style="font-size:9px;font-weight:700;color:' + sentimentColor + ';text-transform:uppercase;">' + escapeHtml(headline.sentiment) + "</span>" : "")
+      + (headline.scenario ? '<span style="font-size:9px;font-weight:600;color:' + scenarioColor + ';text-transform:uppercase;">' + escapeHtml(headline.scenario.replace("deescalation", "de-escal.")) + "</span>" : "")
       + unclassifiedTag
       + "</div></div>";
     return headline.url
@@ -1218,13 +1240,13 @@ function renderDriverGridMarkup(drivers, accentColor) {
     const wrapperTag = driver.url ? "a" : "div";
     const href = driver.url ? ' href="' + escapeHtml(driver.url) + '" target="_blank" rel="noreferrer"' : "";
     return '<' + wrapperTag + ' class="driver-card"' + href + '>'
-      + '<div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);">' + escapeHtml(driver.title) + "</div>"
+      + '<div style="font-size:13px;font-weight:600;line-height:1.35;color:var(--text);">' + escapeHtml(driver.title) + "</div>"
       + '<div class="driver-meta">'
-      + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(driver.source) + "</span>"
-      + (driver.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(driver.time) + "</span>" : "")
-      + '<span class="mono" style="font-size:7px;font-weight:700;color:' + scenarioColor + ';">' + escapeHtml(driver.scenario.replace("deescalation", "de-escal.")) + "</span>"
+      + '<span class="mono" style="font-size:9px;color:var(--dim);">' + escapeHtml(driver.source) + "</span>"
+      + (driver.time ? '<span class="mono" style="font-size:9px;color:var(--dim);">· ' + escapeHtml(driver.time) + "</span>" : "")
+      + '<span class="mono" style="font-size:9px;font-weight:700;color:' + scenarioColor + ';">' + escapeHtml(driver.scenario.replace("deescalation", "de-escal.")) + "</span>"
       + "</div>"
-      + (driver.rationale ? '<div style="margin-top:5px;font-size:10px;line-height:1.45;color:var(--sub);">' + escapeHtml(driver.rationale) + "</div>" : "")
+      + (driver.rationale ? '<div style="margin-top:5px;font-size:12px;line-height:1.45;color:var(--sub);">' + escapeHtml(driver.rationale) + "</div>" : "")
       + '</' + wrapperTag + '>';
   }).join("") + "</div>";
 }
@@ -1260,11 +1282,11 @@ function renderCurveTimelineMarkup(events) {
       const href = event.url ? ' href="' + escapeHtml(event.url) + '" target="_blank" rel="noreferrer"' : "";
       return '<' + wrapperTag + ' class="timeline-item"' + href + '>'
         + '<div class="timeline-kicker" style="color:' + scenarioColor + ';">' + escapeHtml(event.curveEffect || "Curve driver") + "</div>"
-        + '<div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);margin-top:2px;">' + escapeHtml(event.title) + "</div>"
+        + '<div style="font-size:13px;font-weight:600;line-height:1.35;color:var(--text);margin-top:2px;">' + escapeHtml(event.title) + "</div>"
         + '<div class="timeline-meta">'
-        + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(event.source) + "</span>"
-        + (event.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(event.time) + "</span>" : "")
-        + (event.tenorFocus ? '<span class="mono" style="font-size:7px;color:' + scenarioColor + ';">' + escapeHtml(event.tenorFocus) + "</span>" : "")
+        + '<span class="mono" style="font-size:9px;color:var(--dim);">' + escapeHtml(event.source) + "</span>"
+        + (event.time ? '<span class="mono" style="font-size:9px;color:var(--dim);">· ' + escapeHtml(event.time) + "</span>" : "")
+        + (event.tenorFocus ? '<span class="mono" style="font-size:9px;color:' + scenarioColor + ';">' + escapeHtml(event.tenorFocus) + "</span>" : "")
         + "</div>"
         + (event.curveEffect || event.tenorFocus
           ? '<div class="timeline-effect">' + escapeHtml((event.curveEffect || "Curve effect") + (event.tenorFocus ? " · focus " + event.tenorFocus : "")) + "</div>"
@@ -1283,13 +1305,13 @@ function renderScenarios() {
     const expanded = state.expandedScenario === key;
     html += '<div style="margin-bottom:9px;" data-scenario="' + key + '">'
       + '<div class="scenario-toggle" data-scenario="' + key + '" style="cursor:pointer;display:flex;align-items:center;gap:7px;margin-bottom:3px;">'
-      + '<span style="color:' + meta.color + ';font-size:11px;">' + meta.icon + "</span>"
-      + '<span style="color:var(--text);font-weight:600;font-size:12px;flex:1;">' + meta.label + "</span>"
-      + '<span class="mono" style="color:' + meta.color + ';font-weight:700;font-size:16px;">' + probability + "%</span>"
-      + '<span style="color:var(--dim);font-size:10px;">' + (expanded ? "▾" : "▸") + "</span>"
+      + '<span style="color:' + meta.color + ';font-size:13px;">' + meta.icon + "</span>"
+      + '<span style="color:var(--text);font-weight:600;font-size:14px;flex:1;">' + meta.label + "</span>"
+      + '<span class="mono" style="color:' + meta.color + ';font-weight:700;font-size:18px;">' + probability + "%</span>"
+      + '<span style="color:var(--dim);font-size:12px;">' + (expanded ? "▾" : "▸") + "</span>"
       + "</div>"
       + '<div class="prob-bar"><div class="prob-fill" style="width:' + probability + '%;background:linear-gradient(90deg,' + meta.color + '88,' + meta.color + ');"></div></div>'
-      + '<div style="display:flex;gap:10px;font-family:var(--mf);font-size:7px;color:var(--dim);margin-bottom:' + (expanded ? 6 : 0) + 'px;">'
+      + '<div style="display:flex;gap:10px;font-family:var(--mf);font-size:9px;color:var(--dim);margin-bottom:' + (expanded ? 6 : 0) + 'px;">'
       + "<span>Brent " + meta.brent + "</span>"
       + "<span>10Y " + meta.tenY + "</span>"
       + "<span>Hormuz " + meta.hormuz + "</span>"
@@ -1297,9 +1319,9 @@ function renderScenarios() {
       + "</div>";
     if (expanded) {
       html += '<div class="scenario-effects" style="background:' + meta.bg + ';border:1px solid ' + meta.color + '22;">'
-        + '<div style="color:' + meta.color + ';font-size:8px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">2ND ORDER</div>'
+        + '<div style="color:' + meta.color + ';font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">2ND ORDER</div>'
         + meta.second.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '44;">' + escapeHtml(line) + "</div>").join("")
-        + '<div style="color:' + meta.color + ';font-size:8px;font-weight:700;letter-spacing:1px;margin-bottom:4px;margin-top:8px;">3RD ORDER</div>'
+        + '<div style="color:' + meta.color + ';font-size:10px;font-weight:700;letter-spacing:1px;margin-bottom:4px;margin-top:8px;">3RD ORDER</div>'
         + meta.third.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '22;">' + escapeHtml(line) + "</div>").join("")
         + "</div>";
     }
