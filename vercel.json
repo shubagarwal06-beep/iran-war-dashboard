@@ -5,6 +5,9 @@
     },
     "api/cron.js": {
       "maxDuration": 60
+    },
+    "api/yields.js": {
+      "maxDuration": 15
     }
   },
   "crons": [
