@@ -521,7 +521,7 @@ textarea {
 const CONFIG = {
   intelUrl:"/api/intel",
   intelRefreshMs:60_000,
-  requestTimeoutMs:25_000,
+  requestTimeoutMs:30_000,
   ...window.DASHBOARD_CONFIG
 };
 
@@ -1055,6 +1055,7 @@ async function refreshIntel(forceRefresh) {
   document.getElementById("scanError").style.display = "none";
   if (!state.headlines.length) {
     document.getElementById("headlinesContainer").innerHTML = [
+      '<div style="color:var(--dim);font-size:11px;text-align:center;padding:12px 0 8px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>',
       '<div class="shim"></div>',
       '<div class="shim"></div>',
       '<div class="shim"></div>',
@@ -1162,11 +1163,12 @@ function renderKeyDevelopment() {
 
 function renderHeadlines() {
   const container = document.getElementById("headlinesContainer");
-  if (!state.headlines.length && !state.loadingIntel) {
-    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;">No headlines available.</div>';
+  if (!state.headlines.length && state.loadingIntel) {
+    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;letter-spacing:0.04em;">Fetching live headlines\u2026</div>';
     return;
   }
   if (!state.headlines.length) {
+    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;">No headlines available.</div>';
     return;
   }
   container.innerHTML = state.headlines.map((headline, index) => {
