@@ -800,11 +800,17 @@ function renderBanner() {
   const text = document.getElementById("configBannerText");
   const messages = [];
 
-  if (!state.backendIntelReachable) {
+  if (state.loadingIntel) {
+    banner.classList.remove("active");
+    text.innerHTML = "";
+    return;
+  }
+
+  if (!state.backendIntelReachable && state.scanErr !== null) {
     if (window.location.protocol === "file:") {
       messages.push("This file is being opened directly. Run <code>npm start</code> in this folder and open <code>http://127.0.0.1:3000</code> so the same-origin <code>/api/intel</code> route exists.");
     } else {
-      messages.push("The local news backend was not reachable on this page load. Run <code>npm start</code> in this folder, then refresh.");
+      messages.push("Live data could not be reached — retrying shortly.");
     }
   } else if (state.intelMode === "demo") {
     messages.push("The live news feed is using demo values because the upstream news providers failed");
