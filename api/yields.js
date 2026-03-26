@@ -11,25 +11,31 @@ const SERIES = [
   "DGS10", "DGS20", "DGS30"
 ];
 
-function fetchLatest(seriesId) {
+function fetchSeries(seriesId, apiKey) {
   return new Promise((resolve, reject) => {
-    const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
-    https.get(url, { headers: { "User-Agent": "iran-war-dashboard/1.0" } }, (res) => {
+    const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&sort_order=desc&limit=5&api_key=${apiKey}&file_type=json`;
+    https.get(url, (res) => {
       let body = "";
       res.on("data", (chunk) => { body += chunk; });
       res.on("end", () => {
-        const lines = body.trim().split("\n");
-        // Walk backward to find last non-"." value
-        for (let i = lines.length - 1; i >= 1; i--) {
-          const parts = lines[i].split(",");
-          const date = parts[0] && parts[0].trim();
-          const val = parts[1] && parts[1].trim();
-          if (val && val !== ".") {
-            resolve({ date, value: parseFloat(val) });
+        try {
+          const json = JSON.parse(body);
+          if (json.error_code) {
+            reject(new Error(`FRED API error: ${json.error_message}`));
             return;
           }
+          // Walk forward (desc order) to find first non-"." value
+          const obs = json.observations || [];
+          for (const o of obs) {
+            if (o.value && o.value !== ".") {
+              resolve({ date: o.date, value: parseFloat(o.value) });
+              return;
+            }
+          }
+          resolve({ date: null, value: null });
+        } catch (e) {
+          reject(e);
         }
-        resolve({ date: null, value: null });
       });
     }).on("error", reject);
   });
@@ -41,7 +47,12 @@ async function getLiveYields() {
     return cache;
   }
 
-  const results = await Promise.all(SERIES.map((id) => fetchLatest(id, null)));
+  const apiKey = process.env.FRED_API_KEY;
+  if (!apiKey) {
+    throw new Error("FRED_API_KEY environment variable is not set");
+  }
+
+  const results = await Promise.all(SERIES.map((id) => fetchSeries(id, apiKey)));
 
   if (results.some((r) => r.value === null || isNaN(r.value))) {
     throw new Error("Missing yield data from FRED for one or more tenors");
