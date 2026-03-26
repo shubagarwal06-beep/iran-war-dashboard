@@ -1,0 +1,1649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iran War Update | BASIS Macro Command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Bodoni+Moda:opsz,wght@6..96,500;6..96,600;6..96,700&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#ffffff;
+  --card:#f8f6f4;
+  --border:#e5ddd5;
+  --surface:#f1eee9;
+  --crimson:#8b1a1a;
+  --crimsonLt:#a82828;
+  --crimsonFaint:#8b1a1a0a;
+  --red:#c0392b;
+  --green:#27864a;
+  --blue:#2c6fbb;
+  --gold:#b08d2a;
+  --text:#1a1311;
+  --sub:#6b5e55;
+  --dim:#a39588;
+  --faint:#ebe6e0;
+  --warning:#a76b00;
+  --warningBg:#fff6de;
+  --mf:"IBM Plex Mono", monospace;
+  --sf:"Bodoni Moda", serif;
+  --nf:"Libre Franklin", sans-serif;
+}
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--nf);
+  font-size:13px;
+  line-height:1.4;
+}
+button,
+input,
+select,
+textarea {
+  font:inherit;
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50% { opacity:.4; }
+}
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(5px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes shimmer {
+  0% { background-position:-200% 0; }
+  100% { background-position:200% 0; }
+}
+@keyframes tickUp {
+  from { color:var(--green); text-shadow:0 0 6px rgba(39,134,74,.3); }
+  to { color:var(--text); text-shadow:none; }
+}
+@keyframes tickDown {
+  from { color:var(--red); text-shadow:0 0 6px rgba(192,57,43,.3); }
+  to { color:var(--text); text-shadow:none; }
+}
+.shim {
+  height:44px;
+  margin-bottom:7px;
+  border-radius:4px;
+  background:linear-gradient(90deg, var(--faint) 25%, var(--border) 50%, var(--faint) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+}
+.card {
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--card);
+}
+.mono { font-family:var(--mf); }
+.serif { font-family:var(--sf); }
+.btn {
+  border:none;
+  border-radius:5px;
+  padding:6px 13px;
+  cursor:pointer;
+  font-size:10px;
+  font-weight:700;
+  color:#fff;
+  background:var(--crimson);
+  transition:all .15s ease;
+}
+.btn:hover { background:var(--crimsonLt); }
+.btn:disabled {
+  cursor:default;
+  color:var(--dim);
+  background:var(--faint);
+}
+.btn-sm {
+  padding:3px 9px;
+  font-size:8px;
+  border-radius:4px;
+}
+.overlay {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:none;
+  overflow:auto;
+  padding:24px 36px;
+  background:var(--bg);
+}
+.overlay.active {
+  display:flex;
+  flex-direction:column;
+}
+.headline-item {
+  margin-bottom:6px;
+  padding:6px 10px;
+  border-left:3px solid var(--dim);
+  border-radius:0 5px 5px 0;
+  background:#fff;
+  animation:fadeIn .3s ease both;
+}
+.prob-bar {
+  height:4px;
+  margin-bottom:2px;
+  overflow:hidden;
+  border-radius:2px;
+  background:var(--faint);
+}
+.prob-fill {
+  height:100%;
+  border-radius:2px;
+  transition:width 1s ease;
+}
+.trade-card {
+  margin-bottom:6px;
+  padding:9px 11px;
+  border-radius:5px;
+  background:#fff;
+  animation:fadeIn .2s ease both;
+}
+.scenario-effects {
+  padding:10px;
+  border-radius:5px;
+  animation:fadeIn .2s ease;
+}
+.effect-line {
+  margin-bottom:2px;
+  padding-left:7px;
+  font-size:10px;
+  line-height:1.4;
+  color:var(--sub);
+}
+.price-card {
+  position:relative;
+  min-width:190px;
+  flex:1;
+  overflow:hidden;
+  padding:13px 15px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--card);
+}
+.price-card .price-label {
+  margin-bottom:6px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--sub);
+}
+.tv-widget-shell {
+  height:300px;
+  margin-top:8px;
+  overflow:hidden;
+  border-radius:8px;
+  background:#131722;
+}
+.tv-widget-host,
+.tv-widget-host .tradingview-widget-container,
+.tv-widget-host .tradingview-widget-container__widget {
+  width:100%;
+  height:100%;
+}
+.source-note {
+  margin-top:3px;
+  font-size:7px;
+  color:var(--dim);
+}
+.yc-tooltip {
+  position:absolute;
+  top:20px;
+  right:22px;
+  z-index:10;
+  display:none;
+  min-width:160px;
+  padding:8px 12px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:#fff;
+  box-shadow:0 4px 16px rgba(0, 0, 0, .08);
+}
+.tree-node {
+  padding:14px 20px;
+  border:2px solid var(--dim);
+  border-radius:12px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .2s;
+}
+.tree-branch {
+  padding:10px 14px;
+  border:2px solid var(--dim);
+  border-radius:8px;
+  text-align:center;
+  cursor:pointer;
+  background:#fff;
+}
+.status-banner {
+  display:none;
+  gap:10px;
+  align-items:flex-start;
+  margin-bottom:14px;
+  padding:10px 12px;
+  border:1px solid #a76b0030;
+  border-radius:6px;
+  background:var(--warningBg);
+}
+.status-banner.active {
+  display:flex;
+}
+.status-banner strong {
+  font-size:10px;
+  letter-spacing:1px;
+  color:var(--warning);
+}
+.status-banner p {
+  font-size:10px;
+  color:var(--sub);
+}
+.status-banner code {
+  font-family:var(--mf);
+}
+.driver-box {
+  margin-top:12px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+}
+.driver-box-title {
+  margin-bottom:6px;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--crimson);
+}
+.driver-box-text {
+  font-size:10px;
+  line-height:1.5;
+  color:var(--sub);
+}
+.driver-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:8px;
+  margin-top:10px;
+}
+.driver-card,
+.timeline-item {
+  display:block;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:#fff;
+  color:inherit;
+  text-decoration:none;
+}
+.driver-card:hover,
+.timeline-item:hover {
+  border-color:var(--dim);
+}
+.driver-meta,
+.timeline-meta {
+  display:flex;
+  gap:6px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-top:4px;
+}
+.timeline-stack {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:10px;
+}
+.timeline-kicker {
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+.timeline-effect {
+  margin-top:4px;
+  font-size:10px;
+  line-height:1.45;
+  color:var(--sub);
+}
+.method-footnote {
+  margin-top:12px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:var(--card);
+}
+.method-footnote-title {
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--dim);
+}
+.method-footnote-text {
+  margin-top:4px;
+  font-size:10px;
+  line-height:1.5;
+  color:var(--sub);
+}
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb {
+  border-radius:3px;
+  background:var(--dim);
+}
+@media (max-width: 980px) {
+  #intelGrid,
+  #bottomGrid {
+    grid-template-columns:1fr !important;
+  }
+}
+@media (max-width: 760px) {
+  body {
+    font-size:12px;
+  }
+  #app {
+    padding:14px 14px 28px !important;
+  }
+  #headerBar {
+    flex-direction:column;
+    gap:12px;
+    align-items:flex-start !important;
+  }
+  #headerRight {
+    width:100%;
+    justify-content:space-between;
+  }
+  .overlay {
+    padding:18px 16px;
+  }
+}
+</style>
+</head>
+<body>
+<div id="app" style="padding:16px 20px;min-height:100vh;">
+  <div id="headerBar" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;border-bottom:2px solid var(--crimson);padding-bottom:14px;">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="width:36px;height:36px;border:2px solid var(--crimson);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--sf);color:var(--crimson);font-size:22px;font-weight:700;font-style:italic;">b</div>
+      <div>
+        <div class="serif" style="font-size:22px;font-weight:700;">Iran War <span style="color:var(--crimson)">Update</span></div>
+        <div style="color:var(--sub);font-size:10px;margin-top:1px;">Live Market Data · Scenario Tree · Yield Curve</div>
+      </div>
+    </div>
+    <div id="headerRight" style="display:flex;align-items:center;gap:12px;">
+      <div style="text-align:right;">
+        <div id="clock" class="mono" style="color:var(--text);font-size:12px;"></div>
+        <div id="date" class="mono" style="color:var(--dim);font-size:8px;"></div>
+        <div id="lastUpdate" class="mono" style="color:var(--dim);font-size:7px;margin-top:1px;"></div>
+      </div>
+      <button id="scanBtn" class="btn" type="button">REFRESH NOW</button>
+      <div style="display:flex;align-items:center;gap:4px;">
+        <div id="statusDot" style="width:6px;height:6px;border-radius:50%;background:var(--green);"></div>
+        <span id="statusText" class="mono" style="font-size:8px;color:var(--sub);">LIVE</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="configBanner" class="status-banner">
+    <strong>NEWS STATUS</strong>
+    <p id="configBannerText"></p>
+  </div>
+
+  <div id="keyDevBanner" style="background:var(--crimsonFaint);border:1px solid #8b1a1a22;border-radius:5px;padding:8px 13px;margin-bottom:14px;display:none;align-items:center;gap:8px;flex-wrap:wrap;">
+    <span style="color:var(--crimson);font-weight:700;font-size:9px;letter-spacing:1.5px;">KEY DEV</span>
+    <span id="keyDevText" style="color:var(--text);font-size:11px;flex:1;"></span>
+    <span id="oilBiasTag" class="mono" style="font-size:8px;font-weight:700;display:none;"></span>
+    <span id="ratesBiasTag" class="mono" style="font-size:8px;font-weight:700;display:none;"></span>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;" id="marketCardsRow">
+    <div class="price-card" id="brentCard">
+      <div class="price-label">Brent Crude</div>
+      <div class="tv-widget-shell">
+        <div class="tv-widget-host" id="brentWidget"></div>
+      </div>
+      <div class="source-note" id="brentMeta">Live chart via TradingView · UKOIL</div>
+    </div>
+    <div class="price-card" id="wtiCard">
+      <div class="price-label">WTI Crude</div>
+      <div class="tv-widget-shell">
+        <div class="tv-widget-host" id="wtiWidget"></div>
+      </div>
+      <div class="source-note" id="wtiMeta">Live chart via TradingView · USOIL</div>
+    </div>
+    <div class="price-card" id="ustCard">
+      <div class="price-label">10Y UST Yield</div>
+      <div class="tv-widget-shell">
+        <div class="tv-widget-host" id="ustWidget"></div>
+      </div>
+      <div class="source-note" id="ustMeta">Live chart via TradingView · US10Y</div>
+    </div>
+    <div class="card" style="flex:1;min-width:180px;padding:13px 15px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
+        <span style="color:var(--sub);font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;">Hormuz Passage</span>
+        <span id="hormuzSeverity" class="mono" style="font-size:7px;color:var(--red);font-weight:600;">CRITICAL</span>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:4px;">
+        <span class="mono" style="color:var(--text);font-size:22px;font-weight:700;" id="hormuzShips">—</span>
+        <span style="color:var(--dim);font-size:10px;">ships/day</span>
+      </div>
+      <div style="margin-top:4px;height:5px;background:var(--faint);border-radius:3px;overflow:hidden;">
+        <div id="hormuzBar" style="height:100%;width:0;background:var(--red);border-radius:3px;transition:width 1s;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px;">
+        <span class="mono" style="font-size:8px;color:var(--red);font-weight:600;" id="hormuzPct">Awaiting data</span>
+        <span class="mono" style="font-size:8px;color:var(--dim);">Normal: ~130/day</span>
+      </div>
+      <div id="hormuzBacklog" class="mono" style="font-size:8px;color:var(--dim);margin-top:2px;">Status will update from the live news feed.</div>
+      <div id="hormuzSource" style="font-size:7px;color:var(--dim);margin-top:3px;">Feed source: live news endpoint</div>
+    </div>
+  </div>
+
+  <div id="intelGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+    <div class="card" style="max-height:340px;overflow-y:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <div class="serif" style="font-size:14px;font-weight:700;">Live News Feed</div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span id="lastScanTime" class="mono" style="font-size:7px;color:var(--dim);"></span>
+          <span id="nextScanTime" class="mono" style="font-size:7px;color:var(--dim);"></span>
+        </div>
+      </div>
+      <div id="headlinesContainer">
+        <div class="shim"></div>
+        <div class="shim"></div>
+        <div class="shim"></div>
+        <div class="shim"></div>
+        <div class="shim"></div>
+      </div>
+      <div id="intelMeta" class="source-note">Source: waiting for backend</div>
+      <div id="scanError" style="color:var(--red);font-size:9px;margin-top:4px;display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="serif" style="font-size:14px;font-weight:700;">Scenario Tree <span class="mono" style="font-size:8px;color:var(--dim);font-weight:400;">live-news-weighted</span></div>
+        <button id="treeBtn" class="btn btn-sm" type="button">FULL TREE</button>
+      </div>
+      <div id="scenarioContainer"></div>
+    </div>
+  </div>
+
+  <div id="bottomGrid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:16px;">
+    <div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <div class="serif" style="font-size:14px;font-weight:700;">Yield Curve Scenario Map <span class="mono" style="font-size:8px;color:var(--dim);font-weight:400;">illustrative</span></div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span id="weighted10y" class="mono" style="font-size:8px;color:var(--gold);"></span>
+          <button id="curveBtn" class="btn btn-sm" type="button">FULLSCREEN</button>
+        </div>
+      </div>
+      <div id="ycChartWrap" style="position:relative;"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding-top:8px;border-top:1px solid var(--border);">
+    <div class="mono" style="font-size:7px;color:var(--dim);line-height:1.6;">
+      Oil and UST charts are embedded directly from TradingView widgets
+      <br>Backend API is now reserved for live news only
+      <br>Not financial advice
+    </div>
+  </div>
+</div>
+
+<div id="curveOverlay" class="overlay">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <div>
+      <div class="serif" style="font-size:24px;font-weight:700;">Yield Curve <span style="color:var(--crimson)">Scenario Map</span></div>
+      <div id="curveOverlayMeta" class="mono" style="font-size:10px;color:var(--sub);margin-top:3px;"></div>
+    </div>
+    <button id="closeCurveBtn" class="btn" type="button">EXIT · ESC</button>
+  </div>
+  <div id="ycChartFS" style="flex:1;position:relative;"></div>
+  <div id="curveFormulaBox"></div>
+  <div id="curveRateDriversBox"></div>
+  <div id="curveTimelineBox"></div>
+  <div style="margin-top:8px;padding:8px 12px;background:var(--crimsonFaint);border:1px solid #8b1a1a18;border-radius:5px;">
+    <div style="font-size:10px;color:var(--crimson);font-weight:700;letter-spacing:1px;margin-bottom:3px;">METHODOLOGY</div>
+    <div style="font-size:10px;color:var(--sub);line-height:1.5;">Current curve is the baseline. Scenario curves are analog-based estimates. The gold dashed line is the probability-weighted outcome implied by the active live-news scenario mix.</div>
+  </div>
+</div>
+
+<div id="treeOverlay" class="overlay"></div>
+
+<script>
+const CONFIG = {
+  intelUrl:"/api/intel",
+  intelRefreshMs:60_000,
+  requestTimeoutMs:25_000,
+  ...window.DASHBOARD_CONFIG
+};
+
+const TV_WIDGETS = {
+  brent:{ symbol:"UKOIL", title:"Brent Crude" },
+  wti:{ symbol:"USOIL", title:"WTI Crude" },
+  ust:{ symbol:"US10Y", title:"US 10Y Treasury Yield" }
+};
+
+const TENORS = ["1M", "3M", "6M", "1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"];
+const CUR = [3.74, 3.74, 3.78, 3.81, 3.90, 3.93, 4.03, 4.21, 4.39, 4.95, 4.94];
+const CUR_BASELINE_AS_OF = "Mar 24, 2026";
+const SC = {
+  deescalation:[3.60, 3.55, 3.50, 3.42, 3.40, 3.38, 3.42, 3.52, 3.70, 4.20, 4.25],
+  contained:[3.78, 3.80, 3.85, 3.90, 4.00, 4.05, 4.18, 4.38, 4.55, 5.05, 5.05],
+  escalation:[3.90, 3.95, 4.05, 4.18, 4.30, 4.28, 4.30, 4.48, 4.75, 5.30, 5.35]
+};
+const SMETA = {
+  deescalation:{
+    label:"De-escalation",
+    color:"#27864a",
+    bg:"#27864a10",
+    icon:"◇",
+    brent:"$70-$82",
+    wti:"$63-$75",
+    tenY:"3.60-3.85%",
+    shape:"Bull flatten",
+    hormuz:"80+ ships/day",
+    summary:"Talks progress, Hormuz reopens, war premium unwinds",
+    second:[
+      "Oil premium unwinds and inflation expectations cool quickly.",
+      "Credit spreads tighten while safe-haven demand fades.",
+      "The front end rallies hardest as cuts come back into view."
+    ],
+    third:[
+      "The curve flattens as policy easing re-enters the base case.",
+      "Mortgage rates drift lower and cyclicals regain footing.",
+      "Long-end relief is capped by fiscal supply."
+    ],
+    branches:[
+      { label:"Full ceasefire", brentDir:"down", tenYDir:"down" },
+      { label:"Partial deal", brentDir:"down", tenYDir:"down" }
+    ]
+  },
+  contained:{
+    label:"Contained Conflict",
+    color:"#2c6fbb",
+    bg:"#2c6fbb10",
+    icon:"◆",
+    brent:"$95-$115",
+    wti:"$82-$100",
+    tenY:"4.35-4.60%",
+    shape:"Modest steepen",
+    hormuz:"4-10 ships/day",
+    summary:"Selective passage, elevated oil, the Fed stays stuck",
+    second:[
+      "Oil remains elevated enough to keep inflation sticky.",
+      "Policy stays higher-for-longer with little conviction on cuts.",
+      "Curve pressure concentrates in the belly and long end."
+    ],
+    third:[
+      "Term premium stays wide as supply and geopolitics persist.",
+      "Growth slows but does not collapse.",
+      "Carry matters more than directional duration."
+    ],
+    branches:[
+      { label:"Stalemate", brentDir:"up", tenYDir:"up" },
+      { label:"Slow normalization", brentDir:"up", tenYDir:"up" }
+    ]
+  },
+  escalation:{
+    label:"Full Escalation",
+    color:"#c0392b",
+    bg:"#c0392b10",
+    icon:"▲",
+    brent:"$120-$150",
+    wti:"$105-$135",
+    tenY:"4.60-5.00%+",
+    shape:"Violent steepen",
+    hormuz:"0-2 ships/day",
+    summary:"Severe shipping disruption and a renewed inflation shock",
+    second:[
+      "Oil shock pushes breakevens and near-term inflation expectations higher.",
+      "Policy credibility is tested if inflation rises into slowing growth.",
+      "Treasuries can see a brief safety bid before inflation dominates."
+    ],
+    third:[
+      "Supply chains reprice risk across sectors.",
+      "The short end is vulnerable to hawkish repricing.",
+      "Optionality and inflation hedges outperform."
+    ],
+    branches:[
+      { label:"Closure + strikes", brentDir:"up", tenYDir:"up" },
+      { label:"Regional expansion", brentDir:"up", tenYDir:"up" }
+    ]
+  }
+};
+const POSITIONING = {
+  deescalation:{
+    trades:[
+      { t:"Overweight belly (5-7Y)", c:"HIGH", r:"Most sensitive to falling inflation expectations." },
+      { t:"Flattener: short 2Y, long 5Y", c:"HIGH", r:"Front-end repricing cools while belly rallies." },
+      { t:"Underweight TIPS vs nominals", c:"MED", r:"Energy breakevens compress when war premium fades." }
+    ],
+    net:"Favor duration and the belly. The curve should flatten as cuts return to the conversation."
+  },
+  contained:{
+    trades:[
+      { t:"Overweight 7Y vs underweight 2Y", c:"MED", r:"Carry is still useful but policy risk stays alive." },
+      { t:"Barbell short + long end", c:"MED", r:"Avoid too much belly risk while uncertainty persists." },
+      { t:"Small overweight 5Y TIPS", c:"MED", r:"Sticky oil keeps inflation asymmetry alive." }
+    ],
+    net:"Neutral duration with a barbell tilt. Carry matters, but keep optionality for either tail."
+  },
+  escalation:{
+    trades:[
+      { t:"Underweight short end (2Y)", c:"HIGH", r:"Front-end yields are most exposed to inflation repricing." },
+      { t:"Steepener: short 2Y, long 10Y", c:"HIGH", r:"Safety demand can cushion the long end relative to the front." },
+      { t:"Overweight TIPS (5-7Y)", c:"HIGH", r:"Breakevens widen most cleanly in an oil shock." }
+    ],
+    net:"Stay defensive in the front end, keep steepener exposure, and own inflation protection."
+  }
+};
+const SENTIMENT_COLORS = { bullish:"#27864a", bearish:"#c0392b", neutral:"#a39588" };
+const SCENARIO_COLORS = { deescalation:"#27864a", contained:"#2c6fbb", escalation:"#c0392b" };
+const IMPACT_WEIGHTS = { high:3, medium:2, low:1 };
+const DEFAULT_ANALYSIS_FORMULA = {
+  summary:"Scenario score = prior + live-headline weights + trigger bonuses, normalized to 100%.",
+  steps:[
+    "Start from priors that keep contained and escalation risk live while the conflict is unresolved.",
+    "Each headline adds impact, recency, source quality, fixed-income relevance, and development weight.",
+    "Troop deployments / rejected talks / fresh strikes lift escalation, shipping stress lifts contained, and actual reopening or clean diplomacy lifts de-escalation.",
+    "The displayed probabilities are the normalized result of those scores."
+  ],
+  assumptions:[
+    "Talks only count as easing if the headline does not also say the talks were rejected, mocked, denied, or constrained.",
+    "Shipping disruption without a clean reopening maps to contained risk rather than a full unwind."
+  ]
+};
+const DEFAULT_CURVE_FORMULA = {
+  summary:"This chart is illustrative. It maps the live scenario mix onto three fixed scenario curves anchored to the current Treasury baseline.",
+  steps:[
+    "Each tenor is weighted by the active scenario mix rather than by the top-news order alone.",
+    "The yield-curve driver cards are selected separately from the main news feed so they can stay rates-specific.",
+    "The timeline then shows which fresh headlines are feeding the current curve channel."
+  ],
+  assumptions:[
+    "Scenario curves are analog overlays, not live Treasury recalibrations.",
+    "Use this as a discussion map, not as a trading model or forecast."
+  ]
+};
+
+let state = {
+  probs:{ deescalation:25, contained:50, escalation:25 },
+  headlines:[],
+  keyDev:"",
+  oilBias:"",
+  ratesBias:"",
+  intelSource:"",
+  intelReason:"",
+  analysisMethod:"",
+  curveMethod:"",
+  freshnessNote:"",
+  probabilityDrivers:[],
+  curveDrivers:[],
+  analysisFormula:DEFAULT_ANALYSIS_FORMULA,
+  curveFormula:DEFAULT_CURVE_FORMULA,
+  scenarioDrivers:{
+    deescalation:{ summary:"", drivers:[] },
+    contained:{ summary:"", drivers:[] },
+    escalation:{ summary:"", drivers:[] }
+  },
+  curveTimeline:[],
+  backendIntelReachable:false,
+  lastScan:null,
+  loadingIntel:false,
+  scanErr:null,
+  expandedScenario:null,
+  hoveredScenario:null,
+  countdown:Math.floor(CONFIG.intelRefreshMs / 1000),
+  intelMode:CONFIG.intelUrl ? "live" : "demo",
+  hormuz:{
+    ships_per_day:5,
+    pct_normal:3.8,
+    backlog:"~1,000+ vessels idled · 400+ backlog",
+    severity:"critical",
+    range_text:"2-7",
+    source_text:"Recent reports: AP Mar 24 · USNI/JMIC Mar 10"
+  }
+};
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById("clock").textContent = now.toLocaleTimeString("en-US", { hour12:false });
+  document.getElementById("date").textContent = now.toLocaleDateString("en-US", {
+    weekday:"short",
+    month:"short",
+    day:"numeric",
+    year:"numeric"
+  });
+}
+
+function updateIntelTimestamp() {
+  if (!state.lastScan) {
+    document.getElementById("lastUpdate").textContent = "News: waiting";
+    return;
+  }
+  document.getElementById("lastUpdate").textContent = "News: " + state.lastScan.toLocaleTimeString("en-US", { hour12:false });
+}
+
+function syncStatusBadge() {
+  const dot = document.getElementById("statusDot");
+  const text = document.getElementById("statusText");
+  if (state.loadingIntel) {
+    dot.style.background = "var(--gold)";
+    dot.style.animation = "pulse 1s infinite";
+    text.textContent = "REFRESH";
+    return;
+  }
+
+  dot.style.animation = "none";
+  if (state.intelMode === "demo" || !state.backendIntelReachable) {
+    dot.style.background = "var(--warning)";
+    text.textContent = "DEMO";
+    return;
+  }
+
+  if (state.scanErr && !state.headlines.length) {
+    dot.style.background = "var(--red)";
+    text.textContent = "ERROR";
+    return;
+  }
+
+  dot.style.background = "var(--green)";
+  text.textContent = "LIVE";
+}
+
+function renderBanner() {
+  const banner = document.getElementById("configBanner");
+  const text = document.getElementById("configBannerText");
+  const messages = [];
+
+  if (!state.backendIntelReachable) {
+    if (window.location.protocol === "file:") {
+      messages.push("This file is being opened directly. Run <code>npm start</code> in this folder and open <code>http://127.0.0.1:3000</code> so the same-origin <code>/api/intel</code> route exists.");
+    } else {
+      messages.push("The local news backend was not reachable on this page load. Run <code>npm start</code> in this folder, then refresh.");
+    }
+  } else if (state.intelMode === "demo") {
+    messages.push("The live news feed is using demo values because the upstream news providers failed");
+    if (state.intelReason) {
+      messages.push(" (<code>" + escapeHtml(state.intelReason) + "</code>)");
+    }
+    messages.push(".");
+  }
+
+  if (!messages.length) {
+    banner.classList.remove("active");
+    text.innerHTML = "";
+    return;
+  }
+
+  banner.classList.add("active");
+  text.innerHTML = messages.join("");
+}
+
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error("Request timed out")), ms);
+    })
+  ]);
+}
+
+async function fetchJson(url) {
+  const response = await withTimeout(fetch(url, { headers:{ "Accept":"application/json" } }), CONFIG.requestTimeoutMs);
+  if (!response.ok) {
+    throw new Error("HTTP " + response.status);
+  }
+  return response.json();
+}
+
+function makeMockIntel() {
+  return {
+    mode:"demo",
+    source:"browser-fallback",
+    reason:"Could not reach /api/intel",
+    headlines:[
+      {
+        title:"Reuters: Tanker insurers price in continued delays through the Strait of Hormuz",
+        source:"Reuters",
+        time:"5m ago",
+        sentiment:"bearish",
+        scenario:"contained",
+        impact:"high"
+      },
+      {
+        title:"Regional officials report limited escorted transits after overnight pauses",
+        source:"Bloomberg",
+        time:"18m ago",
+        sentiment:"neutral",
+        scenario:"contained",
+        impact:"medium"
+      },
+      {
+        title:"Energy desks flag firmer Brent time spreads on renewed disruption risk",
+        source:"WSJ",
+        time:"26m ago",
+        sentiment:"bearish",
+        scenario:"escalation",
+        impact:"medium"
+      },
+      {
+        title:"US diplomats revive channel aimed at deconfliction and maritime access",
+        source:"FT",
+        time:"41m ago",
+        sentiment:"bullish",
+        scenario:"deescalation",
+        impact:"medium"
+      },
+      {
+        title:"Shipping trackers still show traffic far below normal despite selective passage",
+        source:"Lloyd's List",
+        time:"54m ago",
+        sentiment:"bearish",
+        scenario:"contained",
+        impact:"high"
+      }
+    ],
+    key_development:"Selective traffic has resumed, but volumes remain severely depressed and the market is still pricing persistent disruption risk.",
+    oil_bias:"up",
+    rates_bias:"higher",
+    analysis_method:"Probabilities are driven by the most market-moving headlines from the last 24 hours, with extra weight on rejected diplomacy, deployments, shipping disruption, oil-supply risk, and fixed-income language.",
+    analysis_formula:DEFAULT_ANALYSIS_FORMULA,
+    curve_formula:DEFAULT_CURVE_FORMULA,
+    freshness_note:"Fallback demo feed only. Start the local server for live headlines.",
+    probability_drivers:[],
+    scenario_drivers:{},
+    curve_timeline:[],
+    hormuz_status:{
+      ships_per_day:6,
+      pct_normal:4.6,
+      backlog:"~900 vessels delayed · convoy scheduling remains tight",
+      severity:"critical",
+      range_text:"2-7",
+      source_text:"Recent reports: AP Mar 24 · USNI/JMIC Mar 10"
+    }
+  };
+}
+
+function deriveProbabilitiesFromHeadlines(headlines) {
+  const scores = { deescalation:18, contained:38, escalation:44 };
+  headlines.forEach((headline) => {
+    const scenario = headline.scenario;
+    if (!scores[scenario]) {
+      return;
+    }
+    const weight = IMPACT_WEIGHTS[headline.impact] ?? 1;
+    scores[scenario] += weight * 8;
+    if (headline.sentiment === "bearish" && scenario === "escalation") {
+      scores.escalation += 6;
+    }
+    if (headline.sentiment === "bearish" && scenario === "contained") {
+      scores.contained += 4;
+    }
+    if (headline.sentiment === "bullish" && scenario === "deescalation") {
+      scores.deescalation += 5;
+    }
+  });
+
+  const total = scores.deescalation + scores.contained + scores.escalation;
+  const probs = {
+    deescalation:Math.round(scores.deescalation / total * 100),
+    contained:Math.round(scores.contained / total * 100),
+    escalation:Math.round(scores.escalation / total * 100)
+  };
+  const diff = 100 - (probs.deescalation + probs.contained + probs.escalation);
+  if (diff !== 0) {
+    const largest = Object.entries(probs).sort((a, b) => b[1] - a[1])[0][0];
+    probs[largest] += diff;
+  }
+  return probs;
+}
+
+function normalizeProbabilities(raw, headlines) {
+  const base = raw && typeof raw === "object" ? raw : deriveProbabilitiesFromHeadlines(headlines);
+  const deescalation = clamp(Number(base.deescalation ?? 0), 0, 100);
+  const contained = clamp(Number(base.contained ?? 0), 0, 100);
+  const escalation = clamp(Number(base.escalation ?? 0), 0, 100);
+  const sum = deescalation + contained + escalation;
+  if (!sum) {
+    return { deescalation:25, contained:50, escalation:25 };
+  }
+  const normalized = {
+    deescalation:Math.round(deescalation / sum * 100),
+    contained:Math.round(contained / sum * 100),
+    escalation:Math.round(escalation / sum * 100)
+  };
+  const diff = 100 - (normalized.deescalation + normalized.contained + normalized.escalation);
+  if (diff !== 0) {
+    const largest = Object.entries(normalized).sort((a, b) => b[1] - a[1])[0][0];
+    normalized[largest] += diff;
+  }
+  return normalized;
+}
+
+function deriveBiases(probs) {
+  return {
+    oilBias:probs.escalation > probs.deescalation ? "up" : (probs.deescalation > probs.escalation ? "down" : "flat"),
+    ratesBias:probs.escalation >= 30 ? "higher" : (probs.deescalation >= 35 ? "lower" : "flat")
+  };
+}
+
+function normalizeDriverEntry(entry) {
+  return {
+    title:String(entry && entry.title ? entry.title : "Untitled driver"),
+    source:String(entry && entry.source ? entry.source : "Unknown source"),
+    time:String(entry && entry.time ? entry.time : ""),
+    url:entry && entry.url ? String(entry.url) : "",
+    scenario:["deescalation", "contained", "escalation"].includes(entry && entry.scenario) ? entry.scenario : "contained",
+    impact:["high", "medium", "low"].includes(entry && entry.impact) ? entry.impact : "medium",
+    weight:Number(entry && entry.weight ? entry.weight : 0),
+    rationale:String(entry && entry.rationale ? entry.rationale : "")
+  };
+}
+
+function normalizeScenarioDrivers(raw) {
+  const base = raw && typeof raw === "object" ? raw : {};
+  return {
+    deescalation:{
+      summary:String(base.deescalation && base.deescalation.summary ? base.deescalation.summary : ""),
+      drivers:Array.isArray(base.deescalation && base.deescalation.drivers) ? base.deescalation.drivers.map(normalizeDriverEntry) : []
+    },
+    contained:{
+      summary:String(base.contained && base.contained.summary ? base.contained.summary : ""),
+      drivers:Array.isArray(base.contained && base.contained.drivers) ? base.contained.drivers.map(normalizeDriverEntry) : []
+    },
+    escalation:{
+      summary:String(base.escalation && base.escalation.summary ? base.escalation.summary : ""),
+      drivers:Array.isArray(base.escalation && base.escalation.drivers) ? base.escalation.drivers.map(normalizeDriverEntry) : []
+    }
+  };
+}
+
+function normalizeTimelineEntry(entry) {
+  return {
+    title:String(entry && entry.title ? entry.title : "Untitled event"),
+    source:String(entry && entry.source ? entry.source : "Unknown source"),
+    time:String(entry && entry.time ? entry.time : ""),
+    url:entry && entry.url ? String(entry.url) : "",
+    scenario:["deescalation", "contained", "escalation"].includes(entry && entry.scenario) ? entry.scenario : "contained",
+    impact:["high", "medium", "low"].includes(entry && entry.impact) ? entry.impact : "medium",
+    curveEffect:String(entry && entry.curve_effect ? entry.curve_effect : ""),
+    tenorFocus:String(entry && entry.tenor_focus ? entry.tenor_focus : "")
+  };
+}
+
+function normalizeFormulaBlock(raw, fallback) {
+  const base = raw && typeof raw === "object" ? raw : {};
+  const safeFallback = fallback && typeof fallback === "object" ? fallback : { summary:"", steps:[], assumptions:[] };
+  return {
+    summary:String(base.summary ?? safeFallback.summary ?? ""),
+    steps:Array.isArray(base.steps) ? base.steps.map((line) => String(line)) : (Array.isArray(safeFallback.steps) ? safeFallback.steps : []),
+    assumptions:Array.isArray(base.assumptions) ? base.assumptions.map((line) => String(line)) : (Array.isArray(safeFallback.assumptions) ? safeFallback.assumptions : [])
+  };
+}
+
+function applyIntelPayload(payload, mode) {
+  const headlines = Array.isArray(payload.headlines) ? payload.headlines.slice(0, 5).map((headline) => ({
+    title:String(headline.title ?? "Untitled headline"),
+    source:String(headline.source ?? "Unknown source"),
+    time:String(headline.time ?? ""),
+    sentiment:["bullish", "bearish", "neutral"].includes(headline.sentiment) ? headline.sentiment : null,
+    scenario:["deescalation", "contained", "escalation"].includes(headline.scenario) ? headline.scenario : null,
+    impact:["high", "medium", "low"].includes(headline.impact) ? headline.impact : "medium",
+    url:headline.url ? String(headline.url) : "",
+    classification_status:headline.classification_status === "unclassified" ? "unclassified" : null
+  })) : [];
+  const probs = normalizeProbabilities(payload.probabilities, headlines);
+  const biases = deriveBiases(probs);
+  const hormuz = payload.hormuz_status || {};
+
+  state.headlines = headlines;
+  state.probs = probs;
+  state.keyDev = String(payload.key_development ?? "No key development provided.");
+  state.oilBias = String(payload.oil_bias ?? biases.oilBias);
+  state.ratesBias = String(payload.rates_bias ?? biases.ratesBias);
+  state.lastScan = new Date();
+  state.scanErr = null;
+  state.intelMode = String(payload.mode || mode || "live");
+  state.intelSource = String(payload.source || "backend");
+  state.intelReason = String(payload.reason || "");
+  state.analysisMethod = String(payload.analysis_method || "");
+  state.curveMethod = String(payload.curve_method || "");
+  state.analysisFormula = normalizeFormulaBlock(payload.analysis_formula, DEFAULT_ANALYSIS_FORMULA);
+  state.curveFormula = normalizeFormulaBlock(payload.curve_formula, DEFAULT_CURVE_FORMULA);
+  state.freshnessNote = String(payload.freshness_note || "");
+  state.probabilityDrivers = Array.isArray(payload.probability_drivers) ? payload.probability_drivers.map(normalizeDriverEntry) : [];
+  state.curveDrivers = Array.isArray(payload.curve_drivers) ? payload.curve_drivers.map(normalizeDriverEntry) : [];
+  state.scenarioDrivers = normalizeScenarioDrivers(payload.scenario_drivers);
+  state.curveTimeline = Array.isArray(payload.curve_timeline) ? payload.curve_timeline.map(normalizeTimelineEntry) : [];
+  state.hormuz = {
+    ships_per_day:Number(hormuz.ships_per_day ?? 5),
+    pct_normal:Number(hormuz.pct_normal ?? 3.8),
+    backlog:String(hormuz.backlog ?? "~1,000+ vessels idled · 400+ backlog"),
+    severity:String(hormuz.severity ?? "critical"),
+    range_text:String(hormuz.range_text ?? "2-7"),
+    source_text:String(hormuz.source_text ?? "Recent reports: AP Mar 24 · USNI/JMIC Mar 10")
+  };
+  updateIntelTimestamp();
+}
+
+async function refreshIntel(forceRefresh) {
+  state.loadingIntel = true;
+  state.scanErr = null;
+  syncStatusBadge();
+  document.getElementById("scanError").style.display = "none";
+  if (!state.headlines.length) {
+    document.getElementById("headlinesContainer").innerHTML = [
+      '<div class="shim"></div>',
+      '<div class="shim"></div>',
+      '<div class="shim"></div>',
+      '<div class="shim"></div>',
+      '<div class="shim"></div>'
+    ].join("");
+  }
+
+  try {
+    if (!CONFIG.intelUrl) {
+      state.backendIntelReachable = false;
+      applyIntelPayload(makeMockIntel(), "demo");
+      return;
+    }
+    const url = forceRefresh
+      ? CONFIG.intelUrl + (CONFIG.intelUrl.includes("?") ? "&" : "?") + "refresh=1"
+      : CONFIG.intelUrl;
+    const payload = await fetchJson(url);
+    state.backendIntelReachable = true;
+    applyIntelPayload(payload, payload.mode || "live");
+  } catch (error) {
+    state.scanErr = error.message;
+    state.backendIntelReachable = false;
+    applyIntelPayload(makeMockIntel(), "demo");
+  } finally {
+    state.loadingIntel = false;
+    state.countdown = Math.floor(CONFIG.intelRefreshMs / 1000);
+    renderAll();
+    renderBanner();
+    syncStatusBadge();
+  }
+}
+
+function prettyIntelSource(source) {
+  const map = {
+    "browser-fallback":"browser demo fallback",
+    "demo-generator":"demo generator",
+    "newsapi+anthropic":"NewsAPI + Anthropic",
+    "newsapi+gemini":"NewsAPI + Gemini",
+    "newsapi":"NewsAPI",
+    "newsapi+openai":"NewsAPI + OpenAI",
+    "newsapi+heuristics":"NewsAPI + legacy heuristics",
+    "newsapi+heuristics-fallback":"NewsAPI + legacy heuristic fallback",
+    "newsapi+fi-ranking":"NewsAPI live ranking",
+    "newsapi+fi-ranking-fallback":"NewsAPI live ranking fallback",
+    "newsapi+google-news-rss+fi-ranking":"NewsAPI + Google News live ranking",
+    "newsapi+google-news-rss+fi-ranking-fallback":"NewsAPI + Google News live ranking fallback",
+    "google-news-rss+anthropic":"Google News RSS + Anthropic",
+    "google-news-rss+gemini":"Google News RSS + Gemini",
+    "google-news-rss":"Google News RSS",
+    "google-news-rss+openai":"Google News RSS + OpenAI",
+    "google-news-rss+heuristics":"Google News RSS + legacy heuristics",
+    "google-news-rss+heuristics-fallback":"Google News RSS + legacy heuristic fallback",
+    "google-news-rss+fi-ranking":"Google News RSS live ranking",
+    "google-news-rss+fi-ranking-fallback":"Google News RSS live ranking fallback"
+  };
+  return map[source] || source || "unknown";
+}
+
+function renderAll() {
+  renderKeyDevelopment();
+  renderHeadlines();
+  renderScenarios();
+  renderHormuz();
+  renderYieldCurve(false);
+  if (document.getElementById("curveOverlay").classList.contains("active")) {
+    renderYieldCurve(true);
+  }
+  if (document.getElementById("treeOverlay").classList.contains("active")) {
+    openTreeFullscreen();
+  }
+  document.getElementById("lastScanTime").textContent = state.lastScan
+    ? "last: " + state.lastScan.toLocaleTimeString("en-US", { hour12:false })
+    : "";
+  if (state.scanErr && state.intelMode === "demo") {
+    const scanErrorEl = document.getElementById("scanError");
+    scanErrorEl.style.display = "block";
+    scanErrorEl.textContent = "Fell back to demo news: " + state.scanErr;
+  } else {
+    document.getElementById("scanError").style.display = "none";
+  }
+  document.getElementById("intelMeta").textContent = "Source: "
+    + prettyIntelSource(state.intelSource || "waiting for backend")
+    + (state.freshnessNote ? " · " + state.freshnessNote : "");
+}
+
+function renderKeyDevelopment() {
+  const banner = document.getElementById("keyDevBanner");
+  const oilBiasTag = document.getElementById("oilBiasTag");
+  const ratesBiasTag = document.getElementById("ratesBiasTag");
+  if (!state.keyDev) {
+    banner.style.display = "none";
+    return;
+  }
+
+  banner.style.display = "flex";
+  document.getElementById("keyDevText").textContent = state.keyDev;
+  oilBiasTag.style.display = state.oilBias ? "inline" : "none";
+  oilBiasTag.textContent = state.oilBias ? "OIL " + state.oilBias.toUpperCase() : "";
+  oilBiasTag.style.color = state.oilBias === "up" ? "#c0392b" : (state.oilBias === "down" ? "#27864a" : "#a39588");
+  ratesBiasTag.style.display = state.ratesBias ? "inline" : "none";
+  ratesBiasTag.textContent = state.ratesBias ? "RATES " + state.ratesBias.toUpperCase() : "";
+  ratesBiasTag.style.color = state.ratesBias === "higher" ? "#c0392b" : (state.ratesBias === "lower" ? "#27864a" : "#a39588");
+}
+
+function renderHeadlines() {
+  const container = document.getElementById("headlinesContainer");
+  if (!state.headlines.length && !state.loadingIntel) {
+    container.innerHTML = '<div style="color:var(--dim);font-size:11px;text-align:center;padding:20px;">No headlines available.</div>';
+    return;
+  }
+  if (!state.headlines.length) {
+    return;
+  }
+  container.innerHTML = state.headlines.map((headline, index) => {
+    const scenarioColor = headline.scenario ? (SCENARIO_COLORS[headline.scenario] || "#a39588") : "#a39588";
+    const sentimentColor = headline.sentiment ? (SENTIMENT_COLORS[headline.sentiment] || "#a39588") : "#a39588";
+    const unclassifiedTag = headline.classification_status === "unclassified"
+      ? '<span class="mono" style="font-size:7px;font-weight:600;color:var(--sub);background:var(--faint);border:1px solid var(--border);border-radius:999px;padding:1px 6px;letter-spacing:0.4px;">UNCLASSIFIED</span>'
+      : "";
+    const content = '<div class="headline-item" style="border-left-color:' + scenarioColor + ';animation-delay:' + (index * 0.06) + 's;">'
+      + '<div style="font-size:11px;color:var(--text);font-weight:500;line-height:1.35;margin-bottom:2px;">' + escapeHtml(headline.title) + "</div>"
+      + '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">'
+      + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(headline.source) + "</span>"
+      + (headline.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(headline.time) + "</span>" : "")
+      + (headline.sentiment ? '<span style="font-size:7px;font-weight:700;color:' + sentimentColor + ';text-transform:uppercase;">' + escapeHtml(headline.sentiment) + "</span>" : "")
+      + (headline.scenario ? '<span style="font-size:7px;font-weight:600;color:' + scenarioColor + ';text-transform:uppercase;">' + escapeHtml(headline.scenario.replace("deescalation", "de-escal.")) + "</span>" : "")
+      + unclassifiedTag
+      + "</div></div>";
+    return headline.url
+      ? '<a href="' + escapeHtml(headline.url) + '" target="_blank" rel="noreferrer" style="text-decoration:none;color:inherit;">' + content + "</a>"
+      : content;
+  }).join("");
+}
+
+function trendTriangle(direction) {
+  if (direction === "up") {
+    return '<span aria-hidden="true" style="color:var(--green);font-weight:700;">▲</span>';
+  }
+  if (direction === "down") {
+    return '<span aria-hidden="true" style="color:var(--red);font-weight:700;">▼</span>';
+  }
+  return '<span aria-hidden="true" style="color:var(--dim);font-weight:700;">•</span>';
+}
+
+function renderTreeSignalRow(brentDir, tenYDir) {
+  return '<div style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:6px;">'
+    + '<span class="mono" style="font-size:8px;color:var(--sub);display:flex;align-items:center;gap:4px;">Brent ' + trendTriangle(brentDir) + '</span>'
+    + '<span class="mono" style="font-size:8px;color:var(--sub);display:flex;align-items:center;gap:4px;">10Y ' + trendTriangle(tenYDir) + '</span>'
+    + '</div>';
+}
+
+function renderDriverGridMarkup(drivers, accentColor) {
+  if (!drivers.length) {
+    return '<div class="driver-box-text">Waiting for fresh probability inputs.</div>';
+  }
+  return '<div class="driver-grid">' + drivers.map((driver) => {
+    const scenarioColor = SCENARIO_COLORS[driver.scenario] || accentColor || "#8b1a1a";
+    const wrapperTag = driver.url ? "a" : "div";
+    const href = driver.url ? ' href="' + escapeHtml(driver.url) + '" target="_blank" rel="noreferrer"' : "";
+    return '<' + wrapperTag + ' class="driver-card"' + href + '>'
+      + '<div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);">' + escapeHtml(driver.title) + "</div>"
+      + '<div class="driver-meta">'
+      + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(driver.source) + "</span>"
+      + (driver.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(driver.time) + "</span>" : "")
+      + '<span class="mono" style="font-size:7px;font-weight:700;color:' + scenarioColor + ';">' + escapeHtml(driver.scenario.replace("deescalation", "de-escal.")) + "</span>"
+      + "</div>"
+      + (driver.rationale ? '<div style="margin-top:5px;font-size:10px;line-height:1.45;color:var(--sub);">' + escapeHtml(driver.rationale) + "</div>" : "")
+      + '</' + wrapperTag + '>';
+  }).join("") + "</div>";
+}
+
+function renderProbabilityExplainMarkup(title, description, drivers) {
+  return '<div class="driver-box">'
+    + '<div class="driver-box-title">' + escapeHtml(title) + "</div>"
+    + '<div class="driver-box-text">' + escapeHtml(description || "Probabilities update from the freshest live headlines available.") + "</div>"
+    + renderDriverGridMarkup(drivers, "#8b1a1a")
+    + "</div>";
+}
+
+function renderMethodFootnoteMarkup(title, formula, methodText) {
+  const summary = formula && formula.summary ? formula.summary : methodText;
+  const assumptions = formula && Array.isArray(formula.assumptions) ? formula.assumptions : [];
+  return '<div class="method-footnote">'
+    + '<div class="method-footnote-title">' + escapeHtml(title) + "</div>"
+    + (summary ? '<div class="method-footnote-text">' + escapeHtml(summary) + '</div>' : '')
+    + (assumptions.length ? '<div class="method-footnote-text">' + escapeHtml(assumptions.join(" ")) + '</div>' : '')
+    + '</div>';
+}
+
+function renderCurveTimelineMarkup(events) {
+  if (!events.length) {
+    return '<div class="driver-box"><div class="driver-box-title">Curve Event Timeline</div><div class="driver-box-text">Waiting for fresh linked events.</div></div>';
+  }
+  return '<div class="driver-box">'
+    + '<div class="driver-box-title">Curve Event Timeline</div>'
+    + '<div class="driver-box-text">Most recent disruptive headlines, ordered in time, with the curve channel each one is currently feeding.</div>'
+    + '<div class="timeline-stack">' + events.map((event) => {
+      const scenarioColor = SCENARIO_COLORS[event.scenario] || "#8b1a1a";
+      const wrapperTag = event.url ? "a" : "div";
+      const href = event.url ? ' href="' + escapeHtml(event.url) + '" target="_blank" rel="noreferrer"' : "";
+      return '<' + wrapperTag + ' class="timeline-item"' + href + '>'
+        + '<div class="timeline-kicker" style="color:' + scenarioColor + ';">' + escapeHtml(event.curveEffect || "Curve driver") + "</div>"
+        + '<div style="font-size:11px;font-weight:600;line-height:1.35;color:var(--text);margin-top:2px;">' + escapeHtml(event.title) + "</div>"
+        + '<div class="timeline-meta">'
+        + '<span class="mono" style="font-size:7px;color:var(--dim);">' + escapeHtml(event.source) + "</span>"
+        + (event.time ? '<span class="mono" style="font-size:7px;color:var(--dim);">· ' + escapeHtml(event.time) + "</span>" : "")
+        + (event.tenorFocus ? '<span class="mono" style="font-size:7px;color:' + scenarioColor + ';">' + escapeHtml(event.tenorFocus) + "</span>" : "")
+        + "</div>"
+        + (event.curveEffect || event.tenorFocus
+          ? '<div class="timeline-effect">' + escapeHtml((event.curveEffect || "Curve effect") + (event.tenorFocus ? " · focus " + event.tenorFocus : "")) + "</div>"
+          : "")
+        + '</' + wrapperTag + '>';
+    }).join("") + "</div></div>";
+}
+
+function renderScenarios() {
+  const container = document.getElementById("scenarioContainer");
+  const keys = ["deescalation", "contained", "escalation"];
+  let html = "";
+  keys.forEach((key) => {
+    const meta = SMETA[key];
+    const probability = state.probs[key] || 0;
+    const expanded = state.expandedScenario === key;
+    html += '<div style="margin-bottom:9px;" data-scenario="' + key + '">'
+      + '<div class="scenario-toggle" data-scenario="' + key + '" style="cursor:pointer;display:flex;align-items:center;gap:7px;margin-bottom:3px;">'
+      + '<span style="color:' + meta.color + ';font-size:11px;">' + meta.icon + "</span>"
+      + '<span style="color:var(--text);font-weight:600;font-size:12px;flex:1;">' + meta.label + "</span>"
+      + '<span class="mono" style="color:' + meta.color + ';font-weight:700;font-size:16px;">' + probability + "%</span>"
+      + '<span style="color:var(--dim);font-size:10px;">' + (expanded ? "▾" : "▸") + "</span>"
+      + "</div>"
+      + '<div class="prob-bar"><div class="prob-fill" style="width:' + probability + '%;background:linear-gradient(90deg,' + meta.color + '88,' + meta.color + ');"></div></div>'
+      + '<div style="display:flex;gap:10px;font-family:var(--mf);font-size:7px;color:var(--dim);margin-bottom:' + (expanded ? 6 : 0) + 'px;">'
+      + "<span>Brent " + meta.brent + "</span>"
+      + "<span>10Y " + meta.tenY + "</span>"
+      + "<span>Hormuz " + meta.hormuz + "</span>"
+      + "<span>" + meta.shape + "</span>"
+      + "</div>";
+    if (expanded) {
+      html += '<div class="scenario-effects" style="background:' + meta.bg + ';border:1px solid ' + meta.color + '22;">'
+        + '<div style="color:' + meta.color + ';font-size:8px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">2ND ORDER</div>'
+        + meta.second.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '44;">' + escapeHtml(line) + "</div>").join("")
+        + '<div style="color:' + meta.color + ';font-size:8px;font-weight:700;letter-spacing:1px;margin-bottom:4px;margin-top:8px;">3RD ORDER</div>'
+        + meta.third.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '22;">' + escapeHtml(line) + "</div>").join("")
+        + "</div>";
+    }
+    html += "</div>";
+  });
+  container.innerHTML = html;
+  container.querySelectorAll(".scenario-toggle").forEach((element) => {
+    element.addEventListener("click", () => {
+      const scenario = element.dataset.scenario;
+      state.expandedScenario = state.expandedScenario === scenario ? null : scenario;
+      renderScenarios();
+    });
+    element.parentElement.addEventListener("mouseenter", () => {
+      state.hoveredScenario = element.dataset.scenario;
+      renderYieldCurve(false);
+    });
+    element.parentElement.addEventListener("mouseleave", () => {
+      state.hoveredScenario = null;
+      renderYieldCurve(false);
+    });
+  });
+}
+
+function renderHormuz() {
+  const ships = Number(state.hormuz.ships_per_day);
+  const pct = clamp(Number(state.hormuz.pct_normal), 0, 100);
+  const severity = state.hormuz.severity.toLowerCase();
+  const severityColor = severity === "open" ? "var(--green)" : (severity === "watch" ? "var(--warning)" : "var(--red)");
+  document.getElementById("hormuzShips").textContent = state.hormuz.range_text || (Number.isFinite(ships) ? "~" + ships : "—");
+  document.getElementById("hormuzPct").textContent = pct.toFixed(1) + "% of normal";
+  document.getElementById("hormuzBar").style.width = pct + "%";
+  document.getElementById("hormuzBar").style.background = severityColor;
+  document.getElementById("hormuzSeverity").textContent = severity.toUpperCase();
+  document.getElementById("hormuzSeverity").style.color = severityColor;
+  document.getElementById("hormuzBacklog").textContent = state.hormuz.backlog;
+  document.getElementById("hormuzSource").textContent = state.hormuz.source_text || "Feed source: live news endpoint";
+  document.getElementById("hormuzPct").style.color = severityColor;
+}
+
+function getWeightedCurve(probabilities) {
+  return CUR.map((_, index) => {
+    const d = probabilities.deescalation / 100;
+    const c = probabilities.contained / 100;
+    const e = probabilities.escalation / 100;
+    return SC.deescalation[index] * d + SC.contained[index] * c + SC.escalation[index] * e;
+  });
+}
+
+function renderYieldCurve(fullscreen) {
+  const wrap = fullscreen ? document.getElementById("ycChartFS") : document.getElementById("ycChartWrap");
+  if (!wrap) {
+    return;
+  }
+  const width = fullscreen ? 920 : 580;
+  const height = fullscreen ? 400 : 220;
+  const padLeft = fullscreen ? 58 : 44;
+  const padRight = 22;
+  const padTop = fullscreen ? 30 : 18;
+  const padBottom = fullscreen ? 36 : 28;
+  const plotWidth = width - padLeft - padRight;
+  const plotHeight = height - padTop - padBottom;
+  const weightedCurve = getWeightedCurve(state.probs);
+  const allCurves = CUR.concat(SC.deescalation, SC.contained, SC.escalation, weightedCurve);
+  const min = Math.min(...allCurves) - .15;
+  const max = Math.max(...allCurves) + .15;
+  const range = max - min;
+  const xOf = (index) => padLeft + (index / (TENORS.length - 1)) * plotWidth;
+  const yOf = (value) => padTop + (1 - (value - min) / range) * plotHeight;
+  const pathFor = (data) => data.map((value, index) => (index === 0 ? "M" : "L") + xOf(index) + "," + yOf(value)).join(" ");
+  const hoveredScenario = state.hoveredScenario;
+  const visibleKeys = hoveredScenario ? ["current", hoveredScenario, "weighted"] : ["current", "deescalation", "contained", "escalation", "weighted"];
+  const curves = {
+    current:{ data:CUR, color:"#8b1a1a", label:"Current", dash:"none", width:fullscreen ? 3 : 2.5 },
+    deescalation:{ data:SC.deescalation, color:"#27864a", label:"De-escal.", dash:"6,3", width:fullscreen ? 2 : 1.5 },
+    contained:{ data:SC.contained, color:"#2c6fbb", label:"Contained", dash:"6,3", width:fullscreen ? 2 : 1.5 },
+    escalation:{ data:SC.escalation, color:"#c0392b", label:"Escalation", dash:"6,3", width:fullscreen ? 2 : 1.5 },
+    weighted:{ data:weightedCurve, color:"#b08d2a", label:"Prob-weighted", dash:"3,2", width:fullscreen ? 2.5 : 2 }
+  };
+
+  const gridValues = [];
+  for (let value = Math.ceil(min * 4) / 4; value <= max; value += .25) {
+    gridValues.push(value);
+  }
+
+  let svg = '<svg viewBox="0 0 ' + width + " " + height + '" style="width:100%;cursor:crosshair;" id="' + (fullscreen ? "ycSvgFS" : "ycSvg") + '">';
+  gridValues.forEach((value) => {
+    svg += '<line x1="' + padLeft + '" x2="' + (width - padRight) + '" y1="' + yOf(value) + '" y2="' + yOf(value) + '" stroke="#ebe6e0" stroke-width="0.5"/>';
+    svg += '<text x="' + (padLeft - 6) + '" y="' + (yOf(value) + 3) + '" fill="#a39588" font-size="8" text-anchor="end" font-family="IBM Plex Mono, monospace">' + value.toFixed(2) + "%</text>";
+  });
+  TENORS.forEach((tenor, index) => {
+    svg += '<line x1="' + xOf(index) + '" x2="' + xOf(index) + '" y1="' + padTop + '" y2="' + (height - padBottom) + '" stroke="#ebe6e0" stroke-width="0.3"/>';
+    svg += '<text x="' + xOf(index) + '" y="' + (height - padBottom + 12) + '" fill="#6b5e55" font-size="9" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-weight="600">' + tenor + "</text>";
+  });
+
+  let areaPath = pathFor(CUR);
+  for (let index = TENORS.length - 1; index >= 0; index -= 1) {
+    areaPath += " L" + xOf(index) + "," + yOf(weightedCurve[index]);
+  }
+  areaPath += " Z";
+  svg += '<path d="' + areaPath + '" fill="#b08d2a" opacity="0.06"/>';
+
+  visibleKeys.forEach((key) => {
+    const curve = curves[key];
+    const dim = hoveredScenario && key !== "current" && key !== hoveredScenario && key !== "weighted";
+    svg += '<path d="' + pathFor(curve.data) + '" fill="none" stroke="' + curve.color + '" stroke-width="' + curve.width + '" stroke-dasharray="' + curve.dash + '" stroke-linejoin="round" opacity="' + (dim ? .1 : 1) + '"/>';
+    curve.data.forEach((value, index) => {
+      svg += '<circle cx="' + xOf(index) + '" cy="' + yOf(value) + '" r="' + ((key === "current" || key === "weighted" ? 2.5 : 1.8) * (fullscreen ? 1.5 : 1)) + '" fill="' + curve.color + '" opacity="' + (dim ? .1 : 1) + '"/>';
+    });
+  });
+
+  visibleKeys.forEach((key, index) => {
+    const curve = curves[key];
+    const legendX = padLeft + 6 + index * (fullscreen ? 148 : 95);
+    svg += '<line x1="' + legendX + '" y1="' + (padTop + 5) + '" x2="' + (legendX + (fullscreen ? 21 : 14)) + '" y2="' + (padTop + 5) + '" stroke="' + curve.color + '" stroke-width="' + (fullscreen ? 3 : 2) + '" stroke-dasharray="' + curve.dash + '"/>';
+    svg += '<text x="' + (legendX + (fullscreen ? 26 : 18)) + '" y="' + (padTop + 8) + '" fill="' + curve.color + '" font-size="8" font-weight="600" font-family="IBM Plex Mono, monospace">' + curve.label + "</text>";
+  });
+
+  svg += '<text x="' + (width - padRight) + '" y="' + (height - 2) + '" fill="#a39588" font-size="7" text-anchor="end" font-family="IBM Plex Mono, monospace">Source: baseline + scenario overlay</text>';
+  TENORS.forEach((_, index) => {
+    svg += '<rect x="' + (xOf(index) - 15) + '" y="' + padTop + '" width="30" height="' + plotHeight + '" fill="transparent" data-idx="' + index + '" class="yc-hover-zone"/>';
+  });
+  svg += "</svg>";
+  svg += '<div id="' + (fullscreen ? "ycTooltipFS" : "ycTooltip") + '" class="yc-tooltip"></div>';
+  wrap.innerHTML = svg;
+
+  wrap.querySelectorAll(".yc-hover-zone").forEach((zone) => {
+    zone.addEventListener("mouseenter", () => {
+      showYieldTooltip(Number(zone.dataset.idx), visibleKeys, curves, fullscreen);
+    });
+    zone.addEventListener("mouseleave", () => {
+      const tooltip = document.getElementById(fullscreen ? "ycTooltipFS" : "ycTooltip");
+      if (tooltip) {
+        tooltip.style.display = "none";
+      }
+    });
+  });
+
+  const weighted10Y = weightedCurve[8];
+  const diff = weighted10Y - CUR[8];
+  const diffBp = Math.round(diff * 100);
+  document.getElementById("weighted10y").innerHTML = 'ILLUS. 10Y: <span style="font-weight:700;font-size:12px;">' + weighted10Y.toFixed(2) + '%</span><span style="color:' + (diff > 0 ? "#c0392b" : "#27864a") + ';margin-left:3px;">(' + (diff > 0 ? "+" : "") + diffBp + "bp vs base)</span>";
+
+  if (fullscreen) {
+    document.getElementById("curveOverlayMeta").innerHTML = "De-esc " + state.probs.deescalation + "% · Contained " + state.probs.contained + "% · Escalation " + state.probs.escalation + '% · Illus. 10Y: <span style="color:var(--gold);font-weight:700;">' + weighted10Y.toFixed(2) + "%</span> · Baseline curve as of " + escapeHtml(CUR_BASELINE_AS_OF) + (state.freshnessNote ? " · " + escapeHtml(state.freshnessNote) : "");
+    document.getElementById("curveFormulaBox").innerHTML = renderMethodFootnoteMarkup("Method note", state.curveFormula, state.curveMethod);
+    document.getElementById("curveRateDriversBox").innerHTML = renderProbabilityExplainMarkup("Yield-Curve-Specific Drivers", state.curveMethod || "These items are selected separately from the live news feed to emphasize rates-sensitive headlines.", state.curveDrivers);
+    document.getElementById("curveTimelineBox").innerHTML = renderCurveTimelineMarkup(state.curveTimeline);
+  }
+}
+
+function showYieldTooltip(index, keys, curves, fullscreen) {
+  const tooltip = document.getElementById(fullscreen ? "ycTooltipFS" : "ycTooltip");
+  let html = '<div style="font-weight:700;font-size:12px;color:var(--crimson);margin-bottom:4px;font-family:var(--mf);">' + TENORS[index] + "</div>";
+  keys.forEach((key) => {
+    const curve = curves[key];
+    const diff = curve.data[index] - CUR[index];
+    html += '<div style="display:flex;justify-content:space-between;margin-bottom:2px;gap:12px;"><span style="font-size:10px;color:' + curve.color + ';font-weight:600;">' + curve.label + '</span><span style="font-size:11px;font-weight:700;color:var(--text);font-family:var(--mf);">' + curve.data[index].toFixed(2) + "%" + (key !== "current" ? '<span style="font-size:9px;color:' + (diff > 0 ? "#c0392b" : "#27864a") + ';margin-left:3px;">(' + (diff > 0 ? "+" : "") + Math.round(diff * 100) + "bp)</span>" : "") + "</span></div>";
+  });
+  tooltip.innerHTML = html;
+  tooltip.style.display = "block";
+}
+
+function openCurveFullscreen() {
+  document.getElementById("curveOverlay").classList.add("active");
+  renderYieldCurve(true);
+}
+
+function closeCurveFullscreen() {
+  document.getElementById("curveOverlay").classList.remove("active");
+}
+
+function openTreeFullscreen() {
+  const overlay = document.getElementById("treeOverlay");
+  overlay.classList.add("active");
+  let html = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">'
+    + '<div><div class="serif" style="font-size:24px;font-weight:700;">Scenario <span style="color:var(--crimson)">Decision Tree</span></div><div style="font-size:11px;color:var(--sub);margin-top:3px;">Click a branch to expand</div></div>'
+    + '<button id="closeTreeBtn" class="btn" type="button">EXIT · ESC</button>'
+    + '</div>'
+    + '<div style="display:flex;flex-direction:column;align-items:center;">'
+    + '<div class="tree-node" style="border-color:var(--crimson);background:var(--crimsonFaint);">'
+    + '<div style="font-weight:700;font-size:14px;color:var(--crimson);">Iran-Hormuz Crisis</div>'
+    + '<div style="font-size:10px;color:var(--sub);margin-top:2px;">Current: ~' + escapeHtml(state.hormuz.ships_per_day) + ' ships/day</div>'
+    + '</div>'
+    + '<svg width="800" height="40"><line x1="400" y1="0" x2="400" y2="20" stroke="#a39588" stroke-width="1.5"/><line x1="130" y1="20" x2="670" y2="20" stroke="#a39588" stroke-width="1.5"/><line x1="130" y1="20" x2="130" y2="40" stroke="#27864a" stroke-width="1.5"/><line x1="400" y1="20" x2="400" y2="40" stroke="#2c6fbb" stroke-width="1.5"/><line x1="670" y1="20" x2="670" y2="40" stroke="#c0392b" stroke-width="1.5"/></svg>'
+    + '<div style="display:flex;gap:24px;width:100%;justify-content:center;align-items:flex-start;flex-wrap:wrap;">';
+
+  ["deescalation", "contained", "escalation"].forEach((key) => {
+    const meta = SMETA[key];
+    const scenarioDrivers = state.scenarioDrivers[key] || { summary:"", drivers:[] };
+    html += '<div style="flex:1;max-width:320px;display:flex;flex-direction:column;align-items:center;" id="treeCol_' + key + '">'
+      + '<div class="tree-node tree-node-toggle" data-tree-scenario="' + key + '" style="border-color:' + meta.color + ';background:' + meta.bg + ';width:100%;">'
+      + '<div style="display:flex;justify-content:space-between;"><span style="font-size:12px;color:' + meta.color + ';">' + meta.icon + '</span><span class="mono" style="font-size:20px;font-weight:700;color:' + meta.color + ';">' + state.probs[key] + '%</span></div>'
+      + '<div style="font-weight:700;font-size:14px;color:var(--text);margin-top:4px;">' + meta.label + "</div>"
+      + '<div style="font-size:10px;color:var(--sub);margin-top:3px;line-height:1.4;">' + escapeHtml(meta.summary) + "</div>"
+      + renderTreeSignalRow(key === "deescalation" ? "down" : "up", key === "deescalation" ? "down" : "up")
+      + '<div style="display:flex;justify-content:center;margin-top:5px;flex-wrap:wrap;"><span class="mono" style="font-size:8px;color:var(--dim);">Hormuz ' + meta.hormuz + '</span></div>'
+      + '<div style="font-size:9px;color:' + meta.color + ';margin-top:4px;font-weight:600;">Curve: ' + meta.shape + '</div>'
+      + '<div style="font-size:9px;color:var(--dim);margin-top:3px;" id="treeToggle_' + key + '">▸ Expand</div>'
+      + "</div>"
+      + '<div id="treeBranch_' + key + '" style="display:none;width:100%;">'
+      + '<svg width="240" height="30" style="display:block;margin:0 auto;"><line x1="120" y1="0" x2="120" y2="15" stroke="' + meta.color + '" stroke-width="1.5"/><line x1="40" y1="15" x2="200" y2="15" stroke="' + meta.color + '" stroke-width="1"/><line x1="40" y1="15" x2="40" y2="30" stroke="' + meta.color + '" stroke-width="1"/><line x1="200" y1="15" x2="200" y2="30" stroke="' + meta.color + '" stroke-width="1"/></svg>'
+      + '<div style="display:flex;gap:8px;width:100%;">'
+      + meta.branches.map((branch) => '<div class="tree-branch" style="border-color:' + meta.color + ';flex:1;"><div style="font-weight:700;color:' + meta.color + ';font-size:11px;">' + escapeHtml(branch.label) + '</div>' + renderTreeSignalRow(branch.brentDir, branch.tenYDir) + '</div>').join("")
+      + "</div>"
+      + '<div style="width:100%;margin-top:12px;background:' + meta.bg + ';border:1px solid ' + meta.color + '33;border-radius:8px;padding:14px;">'
+      + '<div style="padding:8px 10px;background:#fff;border-radius:5px;border:1px solid ' + meta.color + '22;margin-bottom:10px;">'
+      + '<div style="color:' + meta.color + ';font-size:9px;font-weight:700;letter-spacing:1px;margin-bottom:4px;">CURRENT INPUTS</div>'
+      + '<div style="font-size:10px;color:var(--sub);line-height:1.45;">' + escapeHtml(scenarioDrivers.summary || "Waiting for live drivers for this branch.") + '</div>'
+      + renderDriverGridMarkup(scenarioDrivers.drivers, meta.color)
+      + "</div>"
+      + '<div style="color:' + meta.color + ';font-size:9px;font-weight:700;letter-spacing:1px;margin-bottom:5px;">2ND ORDER</div>'
+      + meta.second.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '44;">' + escapeHtml(line) + "</div>").join("")
+      + '<div style="color:' + meta.color + ';font-size:9px;font-weight:700;letter-spacing:1px;margin-bottom:5px;margin-top:10px;">3RD ORDER</div>'
+      + meta.third.map((line) => '<div class="effect-line" style="border-left:2px solid ' + meta.color + '22;">' + escapeHtml(line) + "</div>").join("")
+      + "</div></div></div>";
+  });
+
+  html += '</div>'
+    + '<div style="width:100%;max-width:1100px;">' + renderMethodFootnoteMarkup("Method note", state.analysisFormula, state.analysisMethod) + '</div>'
+    + '</div><div style="text-align:center;margin-top:24px;font-size:8px;color:var(--dim);font-family:var(--mf);">Scenario weights update from the active live news feed.</div>';
+  overlay.innerHTML = html;
+  overlay.querySelector("#closeTreeBtn").addEventListener("click", closeTreeFullscreen);
+  overlay.querySelectorAll(".tree-node-toggle").forEach((element) => {
+    element.addEventListener("click", () => {
+      toggleTreeBranch(element.dataset.treeScenario);
+    });
+  });
+}
+
+function toggleTreeBranch(key) {
+  const branch = document.getElementById("treeBranch_" + key);
+  const toggle = document.getElementById("treeToggle_" + key);
+  if (!branch || !toggle) {
+    return;
+  }
+  if (branch.style.display === "none") {
+    branch.style.display = "block";
+    toggle.textContent = "▾ Collapse";
+  } else {
+    branch.style.display = "none";
+    toggle.textContent = "▸ Expand";
+  }
+}
+
+function closeTreeFullscreen() {
+  const overlay = document.getElementById("treeOverlay");
+  overlay.classList.remove("active");
+  overlay.innerHTML = "";
+}
+
+function buildTradingViewChartUrl(symbol) {
+  const url = new URL("https://s.tradingview.com/widgetembed/");
+  url.searchParams.set("symbol", symbol);
+  url.searchParams.set("tvwidgetsymbol", symbol);
+  url.searchParams.set("interval", "60");
+  url.searchParams.set("locale", "en");
+  url.searchParams.set("symboledit", "0");
+  url.searchParams.set("saveimage", "0");
+  url.searchParams.set("toolbarbg", "#131722");
+  url.searchParams.set("studies", "[]");
+  url.searchParams.set("theme", "dark");
+  url.searchParams.set("style", "1");
+  url.searchParams.set("timezone", "America/New_York");
+  url.searchParams.set("withdateranges", "0");
+  url.searchParams.set("hideideas", "1");
+  url.searchParams.set("hidesidetoolbar", "1");
+  url.searchParams.set("allow_symbol_change", "0");
+  url.searchParams.set("details", "0");
+  url.searchParams.set("calendar", "0");
+  url.searchParams.set("hotlist", "0");
+  url.searchParams.set("support_host", "https://www.tradingview.com");
+  return url.toString();
+}
+
+function mountTradingViewWidget(hostId, config) {
+  const host = document.getElementById(hostId);
+  if (!host) {
+    return;
+  }
+  const iframe = document.createElement("iframe");
+  iframe.src = buildTradingViewChartUrl(config.symbol);
+  iframe.title = config.title + " TradingView chart";
+  iframe.loading = "eager";
+  iframe.referrerPolicy = "origin";
+  iframe.allowTransparency = true;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.style.border = "0";
+  iframe.style.display = "block";
+  host.replaceChildren(iframe);
+}
+
+function mountTradingViewWidgets() {
+  mountTradingViewWidget("brentWidget", TV_WIDGETS.brent);
+  mountTradingViewWidget("wtiWidget", TV_WIDGETS.wti);
+  mountTradingViewWidget("ustWidget", TV_WIDGETS.ust);
+}
+
+async function refreshAll() {
+  const button = document.getElementById("scanBtn");
+  button.disabled = true;
+  button.textContent = "REFRESHING...";
+  try {
+    await refreshIntel(true);
+  } finally {
+    button.disabled = false;
+    button.textContent = "REFRESH NOW";
+  }
+}
+
+function startCountdown() {
+  setInterval(() => {
+    state.countdown -= 1;
+    if (state.countdown < 0) {
+      state.countdown = 0;
+    }
+    const minutes = Math.floor(state.countdown / 60);
+    const seconds = String(state.countdown % 60).padStart(2, "0");
+    document.getElementById("nextScanTime").textContent = "next: " + minutes + ":" + seconds;
+    if (state.countdown === 0 && !state.loadingIntel) {
+      refreshIntel();
+    }
+  }, 1000);
+}
+
+document.getElementById("scanBtn").addEventListener("click", refreshAll);
+document.getElementById("treeBtn").addEventListener("click", openTreeFullscreen);
+document.getElementById("curveBtn").addEventListener("click", openCurveFullscreen);
+document.getElementById("closeCurveBtn").addEventListener("click", closeCurveFullscreen);
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeCurveFullscreen();
+    closeTreeFullscreen();
+  }
+});
+
+updateClock();
+updateIntelTimestamp();
+renderBanner();
+renderAll();
+syncStatusBadge();
+mountTradingViewWidgets();
+setInterval(updateClock, 1000);
+startCountdown();
+refreshAll();
+</script>
+</body>
+</html>

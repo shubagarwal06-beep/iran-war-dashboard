@@ -1,0 +1,11 @@
+{
+  "name": "iran-war-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Same-origin backend for the Iran/Hormuz macro dashboard",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "vercel dev",
+    "check": "node --check server.js && node --check lib/intel.js && node --check api/intel.js"
+  }
+}
