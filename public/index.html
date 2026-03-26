@@ -557,7 +557,7 @@ const TENORS = ["1M", "3M", "6M", "1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "3
 const CUR = [3.74, 3.74, 3.78, 3.81, 3.90, 3.93, 4.03, 4.21, 4.39, 4.95, 4.94];
 const CUR_BASELINE_AS_OF = "Mar 24, 2026";
 const SC = {
-  deescalation:[3.60, 3.55, 3.50, 3.42, 3.40, 3.38, 3.42, 3.52, 3.70, 4.20, 4.25],
+  deescalation:[3.73, 3.72, 3.75, 3.76, 3.73, 3.73, 3.82, 4.00, 4.09, 4.60, 4.57],
   contained:[3.78, 3.80, 3.85, 3.90, 4.00, 4.05, 4.18, 4.38, 4.55, 5.05, 5.05],
   escalation:[3.90, 3.95, 4.05, 4.18, 4.30, 4.28, 4.30, 4.48, 4.75, 5.30, 5.35]
 };
@@ -569,19 +569,19 @@ const SMETA = {
     icon:"◇",
     brent:"$70-$82",
     wti:"$63-$75",
-    tenY:"3.60-3.85%",
-    shape:"Bull flatten",
+    tenY:"4.00-4.15%",
+    shape:"Modest bull flatten",
     hormuz:"80+ ships/day",
-    summary:"Talks progress, Hormuz reopens, war premium unwinds",
+    summary:"Talks progress, Hormuz reopens, war/oil risk premium unwinds — not a full rate collapse",
     second:[
-      "Oil premium unwinds and inflation expectations cool quickly.",
-      "Credit spreads tighten while safe-haven demand fades.",
-      "The front end rallies hardest as cuts come back into view."
+      "Oil/war risk premium unwinds from the belly and long end (15–40bps), but the front end stays anchored to Fed policy — this is a supply shock resolution, not a monetary easing.",
+      "Move is concentrated in 2Y–30Y; the 1M–1Y sector barely shifts since the Fed has no reason to cut merely because a geopolitical risk premium fades.",
+      "Credit spreads tighten while safe-haven demand fades; real rates ease modestly."
     ],
     third:[
-      "The curve flattens as policy easing re-enters the base case.",
-      "Mortgage rates drift lower and cyclicals regain footing.",
-      "Long-end relief is capped by fiscal supply."
+      "The curve modestly bull flattens — long-end relief from lower oil/inflation term premium while the short end holds near current Fed levels.",
+      "Mortgage rates drift modestly lower as 10Y–30Y ease 25–40bps; cyclicals and risk assets regain footing.",
+      "Long-end relief is capped by persistent fiscal supply — a sustained rally requires confirmed Fed cuts, not just a Hormuz reopening."
     ],
     branches:[
       { label:"Full ceasefire", brentDir:"down", tenYDir:"down" },
