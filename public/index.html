@@ -444,9 +444,15 @@ textarea {
     <div class="price-card" id="ustCard">
       <div class="price-label">10Y UST Yield</div>
       <div class="tv-widget-shell">
-        <div class="tv-widget-host" id="ustWidget"></div>
+        <iframe id="ustWidget"
+          src="https://www.cnbc.com/embedded-chart/US10Y?height=300"
+          title="US 10Y Treasury Yield chart"
+          loading="eager"
+          referrerpolicy="no-referrer"
+          style="width:100%;height:100%;border:0;display:block;"
+        ></iframe>
       </div>
-      <div class="source-note" id="ustMeta">Live chart via TradingView · ECONOMICS:USICRATE10Y</div>
+      <div class="source-note" id="ustMeta">Live chart via CNBC · US10Y</div>
     </div>
     <div class="card" style="flex:1;min-width:180px;padding:13px 15px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
@@ -550,8 +556,7 @@ const CONFIG = {
 
 const TV_WIDGETS = {
   brent:{ symbol:"UKOIL", title:"Brent Crude" },
-  wti:{ symbol:"USOIL", title:"WTI Crude" },
-  ust:{ symbol:"ECONOMICS:USICRATE10Y", title:"US 10Y Treasury Yield" }
+  wti:{ symbol:"USOIL", title:"WTI Crude" }
 };
 
 const TENORS = ["1M", "3M", "6M", "1Y", "2Y", "3Y", "5Y", "7Y", "10Y", "20Y", "30Y"];
@@ -1642,7 +1647,6 @@ function mountTradingViewWidget(hostId, config) {
 function mountTradingViewWidgets() {
   mountTradingViewWidget("brentWidget", TV_WIDGETS.brent);
   mountTradingViewWidget("wtiWidget", TV_WIDGETS.wti);
-  mountTradingViewWidget("ustWidget", TV_WIDGETS.ust);
 }
 
 async function fetchLiveYields() {
