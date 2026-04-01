@@ -443,15 +443,19 @@ textarea {
     </div>
     <div class="price-card" id="ustCard">
       <div class="price-label">10Y UST Yield</div>
-      <div class="tv-widget-shell">
-        <iframe id="ustWidget"
-          src="https://tradingeconomics.com/united-states/government-bond-yield"
-          title="US 10Y Treasury Yield chart"
-          loading="eager"
-          style="width:100%;height:100%;border:0;display:block;"
-        ></iframe>
+      <div class="tv-widget-shell" style="background:var(--surface);display:flex;flex-direction:column;padding:16px 16px 12px;">
+        <div id="ustCardLoad" style="flex:1;display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mf);font-size:11px;letter-spacing:1px;">LOADING…</div>
+        <div id="ustCardBody" style="display:none;flex-direction:column;height:100%;">
+          <div style="display:flex;align-items:baseline;gap:9px;">
+            <span id="ustYieldVal" class="mono" style="font-size:46px;font-weight:700;line-height:1;color:var(--text);">—</span>
+            <span id="ustYieldChg" class="mono" style="font-size:14px;font-weight:600;">—</span>
+          </div>
+          <div id="ustYieldDate" class="mono" style="font-size:9px;color:var(--dim);margin-top:5px;margin-bottom:10px;letter-spacing:.5px;"></div>
+          <svg id="ustSparkline" viewBox="0 0 300 160" preserveAspectRatio="none" style="width:100%;flex:1;min-height:0;display:block;"></svg>
+          <div id="ustSparkRange" style="display:flex;justify-content:space-between;margin-top:5px;font-family:var(--mf);font-size:9px;color:var(--dim);"></div>
+        </div>
       </div>
-      <div class="source-note" id="ustMeta">Live chart via TradingEconomics · US 10Y Yield</div>
+      <div class="source-note" id="ustMeta">Live data via FRED · DGS10 · 30-day history</div>
     </div>
     <div class="card" style="flex:1;min-width:180px;padding:13px 15px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;">
@@ -1701,6 +1705,71 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+function drawUstSparkline(obs) {
+  const svg = document.getElementById("ustSparkline");
+  const rangeEl = document.getElementById("ustSparkRange");
+  if (!obs || obs.length < 2) return;
+  const values = obs.map(o => o.value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 0.01;
+  const W = 300, H = 160, pad = 4;
+  const xs = values.map((_, i) => pad + (i / (values.length - 1)) * (W - 2 * pad));
+  const ys = values.map(v => pad + (1 - (v - min) / range) * (H - 2 * pad));
+  const linePoints = xs.map((x, i) => x + "," + ys[i]).join(" ");
+  const fillPoints = [xs[0] + "," + (H - pad)]
+    .concat(xs.map((x, i) => x + "," + ys[i]))
+    .concat([(xs[xs.length - 1]) + "," + (H - pad)])
+    .join(" ");
+  const up = values[values.length - 1] >= values[0];
+  const colorVar = up ? "var(--red)" : "var(--green)";
+  const colorHex = up ? "#c0392b" : "#27864a";
+  svg.innerHTML =
+    '<defs><linearGradient id="ustGrad" x1="0" y1="0" x2="0" y2="1">'
+    + '<stop offset="0%" stop-color="' + colorHex + '" stop-opacity="0.18"/>'
+    + '<stop offset="100%" stop-color="' + colorHex + '" stop-opacity="0.02"/>'
+    + '</linearGradient></defs>'
+    + '<polygon points="' + fillPoints + '" fill="url(#ustGrad)"/>'
+    + '<polyline points="' + linePoints + '" fill="none" stroke="' + colorVar + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>'
+    + '<circle cx="' + xs[xs.length - 1] + '" cy="' + ys[ys.length - 1] + '" r="3" fill="' + colorVar + '"/>';
+  const fmt = function(d) {
+    const parts = d.split("-");
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[parseInt(parts[1]) - 1] + " " + parseInt(parts[2]);
+  };
+  rangeEl.innerHTML =
+    "<span>" + fmt(obs[0].date) + "</span>"
+    + "<span>" + min.toFixed(2) + "% \u2013 " + max.toFixed(2) + "%</span>"
+    + "<span>" + fmt(obs[obs.length - 1].date) + "</span>";
+}
+
+async function initUstCard() {
+  try {
+    const res = await fetch("/api/dgs10history");
+    if (!res.ok) throw new Error("fetch failed");
+    const data = await res.json();
+    const obs = data.observations;
+    if (!obs || obs.length < 2) throw new Error("insufficient data");
+    const cur = obs[obs.length - 1];
+    const prev = obs[obs.length - 2];
+    const changeBp = Math.round((cur.value - prev.value) * 100);
+    document.getElementById("ustYieldVal").textContent = cur.value.toFixed(2) + "%";
+    const chgEl = document.getElementById("ustYieldChg");
+    const sign = changeBp >= 0 ? "+" : "";
+    chgEl.textContent = sign + changeBp + "bp";
+    chgEl.style.color = changeBp > 0 ? "var(--red)" : changeBp < 0 ? "var(--green)" : "var(--dim)";
+    const d = new Date(cur.date + "T12:00:00");
+    document.getElementById("ustYieldDate").textContent =
+      "as of " + d.toLocaleDateString("en-US", { month:"short", day:"numeric", year:"numeric" });
+    drawUstSparkline(obs);
+    document.getElementById("ustCardLoad").style.display = "none";
+    document.getElementById("ustCardBody").style.display = "flex";
+  } catch (_) {
+    const load = document.getElementById("ustCardLoad");
+    if (load) load.textContent = "Yield data unavailable";
+  }
+}
+
 updateClock();
 updateIntelTimestamp();
 renderBanner();
@@ -1710,6 +1779,7 @@ mountTradingViewWidgets();
 setInterval(updateClock, 1000);
 startCountdown();
 fetchLiveYields();
+initUstCard();
 refreshAll();
 </script>
 </body>

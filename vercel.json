@@ -8,6 +8,9 @@
     },
     "api/yields.js": {
       "maxDuration": 30
+    },
+    "api/dgs10history.js": {
+      "maxDuration": 30
     }
   },
   "crons": [
